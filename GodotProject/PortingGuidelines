@@ -1,0 +1,10 @@
+What to port:
+Physics formulas for actors.
+State machines for actors.
+Camera logic.
+Item logic.
+Shader code.
+What not to port:
+Resources. (Prefer coding resource converter instead).
+Rooms.
+Internal ways of saving and loading byte data.
