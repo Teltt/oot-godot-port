@@ -21,6 +21,8 @@ var parent:
 	get:
 		if get_parent() == get_tree().get_first_node_in_group("world"):
 			return null
+		if get_parent().name == child:
+			return get_parent().get_parent()
 		return get_parent()
 func CHECK_FLAG_ALL(flags, mask):
 	return (((flags) & (mask)) == (mask))

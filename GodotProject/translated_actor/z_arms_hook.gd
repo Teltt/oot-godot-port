@@ -156,7 +156,8 @@ func shoot(_delta):
 		if not test.shape:
 			test.shape = SphereShape3D.new()
 			test.shape.radius = 0.01
-		test.target_position = sp60
+		sp60 -= self.unk_1E8
+		test.target_position = -sp60
 		test.force_shapecast_update()
 		if test.is_colliding():
 			intersectPos = test.get_collision_point(0)
