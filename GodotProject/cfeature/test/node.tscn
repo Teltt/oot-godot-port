@@ -1,8 +1,43 @@
-[gd_scene load_steps=2 format=3 uid="uid://de07kd11hjrgs"]
+[gd_scene load_steps=8 format=3 uid="uid://de07kd11hjrgs"]
 
-[ext_resource type="Script" path="res://cfeature/test/varref_test.gd" id="1_67p22"]
+[ext_resource type="PackedScene" uid="uid://b1smw8cgao2ot" path="res://translated_actor/Scene/Hookshot.tscn" id="1_25etl"]
+[ext_resource type="PackedScene" uid="uid://c76bo1t6s7wt0" path="res://translated_actor/Scene/Actor.tscn" id="1_m7waf"]
+[ext_resource type="Script" path="res://translated_actor/Player.gd" id="2_pr64j"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jbffc"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_b5h4l"]
+sky_material = SubResource("ProceduralSkyMaterial_jbffc")
+
+[sub_resource type="Environment" id="Environment_s8ou7"]
+background_mode = 2
+sky = SubResource("Sky_b5h4l")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rtffx"]
 
 [node name="Node" type="Node"]
-script = ExtResource("1_67p22")
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_s8ou7")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Node3D" type="Node3D" parent="." groups=["world"]]
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.0770323, 0.997029, 0, -0.997029, 0.0770323, 0, 32.78, 0)
+
+[node name="Actor2" parent="Node3D" instance=ExtResource("1_25etl")]
+
+[node name="Actor" parent="Node3D" groups=["player"] instance=ExtResource("1_m7waf")]
+script = ExtResource("2_pr64j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Actor"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_rtffx")

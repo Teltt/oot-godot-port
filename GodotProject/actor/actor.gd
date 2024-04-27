@@ -14,7 +14,7 @@ var child:
 		return $Child.get_child(0)
 var parent:
 	set(value):
-		if value!= null:
+		if value != null:
 			reparent(value,false)
 		else:
 			reparent(get_tree().get_first_node_in_group("world"))
@@ -178,9 +178,9 @@ class BodyBreak:
 func UpdatePos(_delta:float) :
 	var speedRate = _delta * 0.5;
 
-	world.origin.x += (velocity.x * speedRate) + colChkInfo.displacement.x;
-	world.origin.y += (velocity.y * speedRate) + colChkInfo.displacement.y;
-	world.origin.z += (velocity.z * speedRate) + colChkInfo.displacement.z;
+	world.origin.x += (velocity.x * speedRate);
+	world.origin.y += (velocity.y * speedRate);
+	world.origin.z += (velocity.z * speedRate);
 
 func UpdateVelocityXZGravity(_delta:float) :
 	var forward = world.basis.x

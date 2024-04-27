@@ -1,5 +1,5 @@
 extends Actor
-@onready var player:Actor = get_tree().get_first_node_in_group("Player");
+@onready var player:Actor 
 @onready var test:ShapeCast3D = $Test
 var state:Callable
 @onready var collider:CollisionShape3D
@@ -14,6 +14,7 @@ func _ready() -> void:
 	unk_1E8 = world.origin;
 	pass
 func _physics_process(_delta: float) -> void:
+	player = get_tree().get_first_node_in_group("player");
 	state.call(_delta);
 	self.unk_1F4 = self.unk_1E8;
 func _process(_delta: float) -> void:
@@ -24,7 +25,6 @@ func _exit_tree() -> void:
 			self.grabbed.flags &= ~ACTOR_FLAG_13;
 func attach_player():
 	
-	player.add_child(self)
 	player.heldActor = self;
 	if (self.child):
 		player.parent=null;
@@ -33,7 +33,7 @@ func attach_player():
 	return false;
 func chk_cancel():
 	if (player.HoldsHookshot()):
-		if ((player.itemAction != player.heldItemAction) or (player.flags & ACTOR_FLAG_TALK)):# or
+		if (player.flags & ACTOR_FLAG_TALK):# or (player.itemAction != player.heldItemAction) or  or
 			#((player.stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))):
 			self.timer = 0;
 			detach();
@@ -115,13 +115,13 @@ func shoot(_delta):
 
 		if (child != null):
 			pass
-			#if ((grabbed != null) and (grabbed.id == ACTOR_BG_SPOT06_OBJECTS)):
-			#	world.origin=grabbed.world.origin- self.grabbedDistDiff;
-			#	phi_f16 = 1.0;
-			#else:
-			#	world.origin+player.unk_3C8+newPos;
-				#if (grabbed != null):
-				#	grabbed.world.origin=world.origin+self.grabbedDistDiff;
+			if ((grabbed != null) ): #and (grabbed.id == ACTOR_BG_SPOT06_OBJECTS)
+				world.origin=grabbed.world.origin- self.grabbedDistDiff;
+				phi_f16 = 1.0;
+			else:
+				world.origin+player.unk_3C8+newPos;
+				if (grabbed != null):
+					grabbed.world.origin=world.origin+self.grabbedDistDiff;
 				
 			
 		else:
@@ -149,7 +149,7 @@ func shoot(_delta):
 		MoveXZGravity(_delta);
 		prevFrameDiff=world.origin- prevPos.origin;
 		self.unk_1E8+unk_1E8+prevFrameDiff;
-		shape.rot.x = atan2(speed, -velocity.y);
+		#shape.rot.x = atan2(speed, -velocity.y);
 		sp60.x = self.unk_1F4.x - (self.unk_1E8.x - self.unk_1F4.x);
 		sp60.y = self.unk_1F4.y - (self.unk_1E8.y - self.unk_1F4.y);
 		sp60.z = self.unk_1F4.z - (self.unk_1E8.z - self.unk_1F4.z);
@@ -191,7 +191,6 @@ func wait(_delta):
 		#get correct timer length for hookshot or longshot
 		# 13 for hookshot length
 		var length:int =  13
-
 		state = (shoot);
 		SetProjectileSpeed(20.0);
 		parent=(player)

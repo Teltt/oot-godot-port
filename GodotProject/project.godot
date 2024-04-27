@@ -14,3 +14,8 @@ config/name="oot_mechanics"
 run/main_scene="res://cfeature/test/node.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[global_group]
+
+world=""
+player=""
