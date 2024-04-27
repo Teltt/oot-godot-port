@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2e7slcutuyrq"]
+
+[ext_resource type="Script" path="res://cfeature/interface/ihit.gd" id="1_uxxs5"]
+
+[node name="Ihit" type="Node3D"]
+script = ExtResource("1_uxxs5")

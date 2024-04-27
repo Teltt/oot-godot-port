@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkk1y0y6bpmcb"]
+
+[ext_resource type="Script" path="res://cfeature/interface/igrab.gd" id="1_20cll"]
+
+[node name="Igrab" type="Node3D"]
+script = ExtResource("1_20cll")

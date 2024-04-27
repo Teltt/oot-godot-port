@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://wokspupcjtas"]
+[gd_scene load_steps=3 format=3 uid="uid://wokspupcjtas"]
+
+[ext_resource type="Script" path="res://cfeature/interface/collisiontest.gd" id="1_hj5wi"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x8pvk"]
 radius = 0.001
@@ -7,3 +9,4 @@ radius = 0.001
 shape = SubResource("SphereShape3D_x8pvk")
 target_position = Vector3(0, 0, 0)
 max_results = 1
+script = ExtResource("1_hj5wi")

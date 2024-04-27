@@ -21,11 +21,11 @@ var parent:
 	get:
 		if get_parent() == get_tree().get_first_node_in_group("world"):
 			return null
-		if get_parent().name == child:
+		if get_parent().name == "Child":
 			return get_parent().get_parent()
 		return get_parent()
-func CHECK_FLAG_ALL(flags, mask):
-	return (((flags) & (mask)) == (mask))
+func CHECK_FLAG_ALL(_flags, mask):
+	return (((_flags) & (mask)) == (mask))
 func SQ(value):
 	return pow(value,2.0)
 const ACTOR_FLAG_0 = 1 << 0

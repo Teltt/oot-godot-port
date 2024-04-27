@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckj4368tmscos"]
+[gd_scene load_steps=7 format=3 uid="uid://ckj4368tmscos"]
 
 [ext_resource type="PackedScene" uid="uid://c76bo1t6s7wt0" path="res://translated_actor/Scene/Actor.tscn" id="1_vb87q"]
 [ext_resource type="Script" path="res://translated_actor/en_arrow.gd" id="2_bxa1h"]
-[ext_resource type="PackedScene" uid="uid://wokspupcjtas" path="res://cfeature/util/collisiontest.tscn" id="2_tg45a"]
+[ext_resource type="PackedScene" uid="uid://wokspupcjtas" path="res://cfeature/interface/collisiontest.tscn" id="2_tg45a"]
+[ext_resource type="PackedScene" uid="uid://dkk1y0y6bpmcb" path="res://cfeature/interface/igrab.tscn" id="4_crj3y"]
+[ext_resource type="PackedScene" uid="uid://b2e7slcutuyrq" path="res://cfeature/interface/ihit.tscn" id="5_b74we"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_fvgq8"]
 top_radius = 0.225
@@ -16,3 +18,11 @@ transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -
 mesh = SubResource("CylinderMesh_fvgq8")
 
 [node name="Test" parent="." index="2" instance=ExtResource("2_tg45a")]
+
+[node name="Igrab" parent="." index="3" instance=ExtResource("4_crj3y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.838506, 0, 0)
+
+[node name="Ihit" parent="." index="4" instance=ExtResource("5_b74we")]
+
+[connection signal="hit_actor" from="Test" to="Ihit" method="from_collision_test"]
+[connection signal="hit" from="Ihit" to="." method="_on_ihit_hit"]

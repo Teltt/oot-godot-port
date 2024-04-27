@@ -72,7 +72,6 @@ func shoot(_delta):
 		var  pad1:int;
 		var  curGrabbedDist:float;
 		var  grabbedDist:float;
-		var  velocity:float;
 
 		grabbed = self.grabbed;
 		if (grabbed != null) :
@@ -89,30 +88,30 @@ func shoot(_delta):
 				
 			
 		
-
+		bodyDistDiffVec = player.unk_3C8-world.origin
 		bodyDistDiff = player.unk_3C8.distance_to( world.origin)
 		if (bodyDistDiff < 30.0):
-			velocity = 0.0;
+			velocity = world.basis.x*0.0;
 			phi_f16 = 0.0;
 		else:
 			if (child != null):
-				velocity = 30.0;
+				velocity = world.basis.x*30.0;
 			elif (grabbed != null):
-				velocity = 50.0;
+				velocity = world.basis.x*50.0;
 			else:
-				velocity = 200.0;
+				velocity = world.basis.x*200.0;
 			
-			phi_f16 = bodyDistDiff - velocity;
-			if (bodyDistDiff <= velocity):
+			phi_f16 = bodyDistDiff - velocity.length();
+			if (bodyDistDiff <= velocity.length()):
 				phi_f16 = 0.0;
 			
-			velocity = phi_f16 / bodyDistDiff;
+			velocity = world.basis.x*( phi_f16 / bodyDistDiff);
 		
 
-		newPos.x = bodyDistDiffVec.x * velocity;
-		newPos.y = bodyDistDiffVec.y * velocity;
-		newPos.z = bodyDistDiffVec.z * velocity;
-
+		newPos.x = bodyDistDiffVec.x * velocity.length()
+		newPos.y = bodyDistDiffVec.y * velocity.length()
+		newPos.z = bodyDistDiffVec.z * velocity.length()
+		world.origin = newPos
 		if (child != null):
 			pass
 			if ((grabbed != null) ): #and (grabbed.id == ACTOR_BG_SPOT06_OBJECTS)
@@ -158,7 +157,7 @@ func shoot(_delta):
 			test.shape.radius = 0.01
 		sp60 -= self.unk_1E8
 		test.target_position = -sp60
-		test.force_shapecast_update()
+		test._force_shapecast_update()
 		if test.is_colliding():
 			intersectPos = test.get_collision_point(0)
 			var polyNormal= test.get_collision_normal(0)

@@ -14,7 +14,7 @@ const ARROW_0D = 7
 const ARROW_0E = 8
 const ARROW_SEED = 9
 const ARROW_NUT = 10
-@onready var test:ShapeCast3D = $Test
+@onready var test:CollisionTest = $Test
 @onready var player:Actor:
 	get:
 		return get_tree().get_first_node_in_group("player")
@@ -33,7 +33,7 @@ var weapon_info# = WeaponInfo()
 var timer = 0
 var init_params = ARROW_FIRE
 func _ready():
-	var params = init_params
+	params = init_params
 	if params == ARROW_CS_NUT:
 		is_cs_nut = true
 		params = ARROW_NUT
@@ -66,27 +66,15 @@ func _ready():
 
 func _exit_tree() -> void:
 	if is_queued_for_deletion():
-		#if params <= ARROW_LIGHT:
-			# Effect_Delete(play, self.effect_index)
-		#SkelAnime_Free(self.skel_anime, play)
-		#Collider_DestroyQuad(play, self.collider)
 		if hit_actor != null and hit_actor.is_processing():
 			hit_actor.flags &= ~ACTOR_FLAG_15
 
 
 func shoot(_delta):
-	player
 	if parent == null:
 		#if params != ARROW_NUT: #and player.unk_A73 == 0:
 		#	queue_free()
 		#	return
-		#match params:
-			#ARROW_SEED:
-				#Player_PlaySfx(player, NA_SE_IT_SLING_SHOT)
-			#ARROW_NORMAL_LIT, ARROW_NORMAL_HORSE, ARROW_NORMAL:
-				#Player_PlaySfx(player, NA_SE_IT_ARROW_SHOT)
-			#ARROW_FIRE, ARROW_ICE, ARROW_LIGHT:
-				#Player_PlaySfx(player, NA_SE_IT_MAGIC_ARROW_SHOT)
 		state = ( fly)
 		unk_210 = world.origin
 		if params >= ARROW_SEED:
@@ -103,6 +91,7 @@ func fly(_delta):
 		return
 	if timer < 7.2000003:
 		gravity = -0.4
+	timer -=_delta
 	var at_touched = params >= ARROW_SEED and params <= ARROW_SEED #and collider.base.at_flags & AT_HIT
 	if at_touched or touched_poly:
 		if params >= ARROW_SEED:
@@ -122,22 +111,7 @@ func fly(_delta):
 		else:
 			pass
 			#EffectSsHitMark_SpawnCustomScale(play, 150, world.origin)
-			#if at_touched and collider.elem.at_hit_elem.elem_type != ELEMTYPE_UNK4:
-				#hit_actor = collider.base.at
-				#if hit_actor.is_processing() and not collider.base.at_flags & AT_BOUNCED and hit_actor.flags & ACTOR_FLAG_14:
-					#hit_actor = hit_actor
-					#EnArrow_CarryActor(self, play)
-					#hit_actor.flags |= ACTOR_FLAG_15
-					#collider.base.at_flags &= ~AT_HIT
-					#speed /= 2.0
-					#velocity.y /= 2.0
-				#else:
-					#hit_flags |= 1
-					#hit_flags |= 2
-					#if collider.elem.at_hit_elem.ac_elem_flags & ACELEM_HIT:
-						#world.origin = collider.elem.at_hit_elem.ac_dmg_info.hit_pos
-					#func_809B3CEC(play, self)
-					#Actor_PlaySfx(self, NA_SE_IT_ARROW_STICK_CRE)
+			#
 			#elif touched_poly:
 				#state = ( func_809B45E0)
 				#Animation_PlayOnce(skel_anime, gArrow2Anim)
@@ -154,9 +128,9 @@ func fly(_delta):
 			test.shape = SphereShape3D.new()
 			test.shape.radius = 0.01
 		test.target_position =-(prevPos.origin-world.origin)
-		test.force_shapecast_update()
+		test._force_shapecast_update()
 		if test.is_colliding():
-			#func_8002F9EC(play, self, wall_poly, bg_id, hit_point)
+			#func_8002F9EC(wall_poly, bg_id, hit_point)
 			#pos_copy = world.origin
 			world.origin = test.get_collision_point(0)
 		if params <= ARROW_0E:
@@ -169,7 +143,7 @@ func fly(_delta):
 				test.shape = SphereShape3D.new()
 				test.shape.radius = 0.01
 			test.target_position =-(sp60-sp54)
-			test.force_shapecast_update()
+			test._force_shapecast_update()
 			if test.is_colliding():
 				var hit_point = test.get_collision_point(0)
 				hit_actor.world.origin.x = hit_point.x + ( 1.0 if (sp54.x <= hit_point.x) else -1.0)
@@ -197,30 +171,15 @@ func func_809B3CEC():
 	speed *= 0.04 + 0.3 * randf_range(0,1)
 	timer = 50
 	gravity = -1.5
-
+signal carry(actor)
+signal release
 func EnArrow_CarryActor():
-	var hit_poly = null
-	var hit_point = Vector3()
 	var pos_diff_last_frame = world.origin - unk_210
 	var temp_f12 = (world.origin.x - hit_actor.world.origin.x) * pos_diff_last_frame.x + (world.origin.y - hit_actor.world.origin.y) * pos_diff_last_frame.y + (world.origin.z - hit_actor.world.origin.z) * pos_diff_last_frame.z
 	if temp_f12 < 0.0:
-		var sca = pos_diff_last_frame.length_squared()
-		if sca < 1.0:
-			scale = Vector3.ONE *(temp_f12 / sca)
-			pos_diff_last_frame *= sca
-			var actor_next_pos = hit_actor.world.origin + pos_diff_last_frame
-			if not test.shape:
-				test.shape = SphereShape3D.new()
-				test.shape.radius = 0.01
-			test.target_position =-( hit_actor.world.origin- actor_next_pos)
-			test.force_shapecast_update()
-			if test.is_colliding():
-				hit_point = test.get_collision_point(0)
-				hit_actor.world.origin.x = hit_point.x + ( 1.0 if (actor_next_pos.x <= hit_point.x)else  -1.0)
-				hit_actor.world.origin.y = hit_point.y + ( 1.0 if (actor_next_pos.y <= hit_point.y)else  -1.0)
-				hit_actor.world.origin.z = hit_point.z + ( 1.0 if (actor_next_pos.z <= hit_point.z)else  -1.0)
-			else:
-				hit_actor.world.origin = actor_next_pos
+		carry.emit(hit_actor)
+	else:
+		release.emit()
 
 func _physics_process(_delta: float) -> void:
 	if is_cs_nut or (params >= ARROW_NORMAL_LIT):# and player.unk_A73 != 0):# or not Player_InBlockingCsMode(play, player):
@@ -279,3 +238,22 @@ func EnArrow_Draw():
 		#Matrix_RotateY(world.rot.y, MTXMODE_APPLY)
 		#CLOSE_DISPS(play.state.gfxCtx)
 	#func_809B4800(self, play)
+
+
+
+func _on_ihit_hit(hitter: Variant, hitspot: Variant) -> void:
+	if state == fly:
+				hit_actor = hitspot.actor
+				if hit_actor.is_processing()  and hit_actor.flags & ACTOR_FLAG_14:
+					hit_actor = hit_actor
+					EnArrow_CarryActor()
+					hit_actor.flags |= ACTOR_FLAG_15
+					speed /= 2.0
+					velocity.y /= 2.0
+				else:
+					hit_flags |= 1
+					hit_flags |= 2
+					world.origin = collider.pos
+					func_809B3CEC()
+					#Actor_PlaySfx(self, NA_SE_IT_ARROW_STICK_CRE)
+	pass # Replace with function body.

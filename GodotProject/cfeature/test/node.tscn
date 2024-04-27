@@ -33,15 +33,14 @@ shadow_enabled = true
 [node name="Node3D" type="Node3D" parent="." groups=["world"]]
 
 [node name="Actor4" parent="Node3D" instance=ExtResource("1_ughih")]
+visible = false
 
 [node name="Camera3D" type="Camera3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 0.489154, 0.872197, 0, -0.872197, 0.489154, 0, 28.3721, 51.0675)
+transform = Transform3D(1, 0, 0, 0, 0.489154, 0.872197, 0, -0.872197, 0.489154, 0, 44.3009, 83.772)
 
 [node name="Actor2" parent="Node3D" instance=ExtResource("1_25etl")]
-visible = false
 
 [node name="Actor" parent="Node3D" groups=["player"] instance=ExtResource("1_m7waf")]
-visible = false
 script = ExtResource("2_pr64j")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Actor"]
@@ -49,3 +48,4 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_rtffx")
 
 [node name="Actor3" parent="Node3D" instance=ExtResource("4_ay7l7")]
+visible = false
