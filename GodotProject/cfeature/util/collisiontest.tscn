@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://wokspupcjtas"]
+
+[node name="Test" type="ShapeCast3D"]
+max_results = 1

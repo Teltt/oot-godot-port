@@ -1,5 +1,31 @@
-extends Node
+extends Node3D
 class_name Actor
+var child:
+	set(value):
+		if $Child.get_child_count() > 0:
+			
+			for _child in $Child.get_children():
+				$Child.remove_child(_child)
+		if value != null:
+			$Child.add_child(value)
+	get:
+		if $Child.get_child_count() == 0:
+			return null
+		return $Child.get_child(0)
+var parent:
+	set(value):
+		if value!= null:
+			reparent(value,false)
+		else:
+			reparent(get_tree().get_first_node_in_group("world"))
+	get:
+		if get_parent() == get_tree().get_first_node_in_group("world"):
+			return null
+		return get_parent()
+func CHECK_FLAG_ALL(flags, mask):
+	return (((flags) & (mask)) == (mask))
+func SQ(value):
+	return pow(value,2.0)
 const ACTOR_FLAG_0 = 1 << 0
 const ACTOR_FLAG_2 = 1 << 2
 const ACTOR_FLAG_3 = 1 << 3
@@ -38,11 +64,18 @@ var params: int
 var objectSlot: int
 var targetMode: int
 var sfx: int
-var world: Transform3D
+var world: Transform3D:
+	set(value):
+		global_transform = value
+	get:
+		return global_transform
 var focus: Transform3D
 var velocity: Vector3
 var speed: float
 var gravity: float
+func SetProjectileSpeed(speedXYZ):
+	speed = (world.basis.y).dot(Vector3.UP)* speedXYZ;
+	velocity.y = -(world.basis.y).dot(Vector3.FORWARD) * speedXYZ;
 var minVelocityY: float
 var wallPoly#: CollisionPoly
 var floorPoly#: CollisionPoly
@@ -140,3 +173,25 @@ class BodyBreak:
 	var dLists: Array
 	var val: int
 	var prevLimbIndex: int
+
+
+func UpdatePos(_delta:float) :
+	var speedRate = _delta * 0.5;
+
+	world.origin.x += (velocity.x * speedRate) + colChkInfo.displacement.x;
+	world.origin.y += (velocity.y * speedRate) + colChkInfo.displacement.y;
+	world.origin.z += (velocity.z * speedRate) + colChkInfo.displacement.z;
+
+func UpdateVelocityXZGravity(_delta:float) :
+	var forward = world.basis.x
+	velocity.x = forward.x * speed;
+	velocity.z = forward.z * speed;
+
+	velocity.y += gravity;
+
+	if (velocity.y < minVelocityY):
+		velocity.y = minVelocityY;
+
+func MoveXZGravity(_delta:float) :
+	UpdateVelocityXZGravity(_delta);
+	UpdatePos(_delta);

@@ -69,18 +69,18 @@ func ArmsHook_Init() :
 
 	#Collider_InitQuad(play, &self.collider);
 	#Collider_SetQuad(play, &self.collider, &self.actor, &sQuadInit);
-	ArmsHook_SetupAction(ArmsHook_Wait);
+	ArmsHook_SetupAction();
 	unk_1E8 = actor.world.pos;
 
 func ArmsHook_Destroy() :
 	
 
-	if (self.grabbed != null):
+	if (self.grabbed != NULL):
 		self.grabbed.flags &= ~ACTOR_FLAG_13;
 	#Collider_DestroyQuad(play, &self.collider);
 
 func ArmsHook_Wait():
-	if (self.actor.parent == null):
+	if (self.actor.parent == NULL):
 		var player:Player = GET_PLAYER(play);
 		#get correct timer length for hookshot or longshot
 		var length:int =  13 if (player.heldItemAction == PLAYER_IA_HOOKSHOT) else 26;
@@ -97,16 +97,16 @@ func func_80865044() :
 func ArmsHook_AttachToPlayer():
 	player.actor.child = self.actor;
 	player.heldActor = self.actor;
-	if (self.actor.child != null):
-		player.actor.parent = null;
-		self.actor.child = null;
+	if (self.actor.child != NULL):
+		player.actor.parent = NULL;
+		self.actor.child = NULL;
 		return true;
 	return false;
 
 func ArmsHook_DetachHookFromActor():
-	if (self.grabbed != null) :
+	if (self.grabbed != NULL) :
 		self.grabbed.flags &= ~ACTOR_FLAG_13;
-		self.grabbed = null;
+		self.grabbed = NULL;
 
 func ArmsHook_CheckForCancel() -> int:
 	var player:Player = self.actor.parent;
@@ -127,7 +127,7 @@ func ArmsHook_AttachHookToActor():
 func ArmsHook_Shoot():
 	var player = GET_PLAYER();
 
-	if ((self.actor.parent == null) or (!Player_HoldsHookshot(player))):
+	if ((self.actor.parent == NULL) or (!Player_HoldsHookshot(player))):
 		ArmsHook_DetachHookFromActor();
 		Actor_Kill(self.actor);
 		return;
@@ -139,7 +139,7 @@ func ArmsHook_Shoot():
 		(self.collider.elem.atHitElem.elemType != ELEMTYPE_UNK4)) :
 		var touchedActor = self.collider.base.at;
 
-		if ((touchedActor.physics_process != null) and (touchedActor.flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))):
+		if ((touchedActor.physics_process != NULL) and (touchedActor.flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))):
 			if (self.collider.elem.atHitElem.acElemFlags & ACELEM_HOOKABLE):
 				ArmsHook_AttachHookToActor(this, touchedActor);
 				if (CHECK_FLAG_ALL(touchedActor.flags, ACTOR_FLAG_10)):
@@ -161,17 +161,17 @@ func ArmsHook_Shoot():
 		var  velocity:float;
 
 		grabbed = self.grabbed;
-		if (grabbed != null) :
-			if ((grabbed.physics_process == null) or !CHECK_FLAG_ALL(grabbed.flags, ACTOR_FLAG_13)) :
-				grabbed = null;
-				self.grabbed = null;
-			elif (self.actor.child != null):
+		if (grabbed != NULL) :
+			if ((grabbed.physics_process == NULL) or !CHECK_FLAG_ALL(grabbed.flags, ACTOR_FLAG_13)) :
+				grabbed = NULL;
+				self.grabbed = NULL;
+			elif (self.actor.child != NULL):
 				curGrabbedDist = Actor_WorldDistXYZToActor(self.actor, grabbed);
 				grabbedDist =sqrt(SQ(self.grabbedDistDiff.x) + SQ(self.grabbedDistDiff.y) + SQ(self.grabbedDistDiff.z));
 				Math_Vector3_Diff(grabbed.world.pos, self.grabbedDistDiff, self.actor.world.pos);
 				if ((curGrabbedDist - grabbedDist) > 50.0):
 					ArmsHook_DetachHookFromActor(this);
-					grabbed = null;
+					grabbed = NULL;
 				
 			
 		
@@ -181,9 +181,9 @@ func ArmsHook_Shoot():
 			velocity = 0.0;
 			phi_f16 = 0.0;
 		else:
-			if (self.actor.child != null):
+			if (self.actor.child != NULL):
 				velocity = 30.0;
-			elif (grabbed != null):
+			elif (grabbed != NULL):
 				velocity = 50.0;
 			else:
 				velocity = 200.0;
@@ -199,13 +199,13 @@ func ArmsHook_Shoot():
 		newPos.y = bodyDistDiffVec.y * velocity;
 		newPos.z = bodyDistDiffVec.z * velocity;
 
-		if (self.actor.child == null):
-			if ((grabbed != null) and (grabbed.id == ACTOR_BG_SPOT06_OBJECTS)):
+		if (self.actor.child == NULL):
+			if ((grabbed != NULL) and (grabbed.id == ACTOR_BG_SPOT06_OBJECTS)):
 				Math_Vector3_Diff(grabbed.world.pos, self.grabbedDistDiff, self.actor.world.pos);
 				phi_f16 = 1.0;
 			else:
 				Math_Vector3_Sum(player.unk_3C8, newPos, self.actor.world.pos);
-				if (grabbed != null):
+				if (grabbed != NULL):
 					Math_Vector3_Sum(self.actor.world.pos, self.grabbedDistDiff, grabbed.world.pos);
 				
 			
@@ -254,7 +254,7 @@ func ArmsHook_Shoot():
 
 				if (bgId != BGCHECK_SCENE):
 					dynaPolyActor = DynaPoly_GetActor(play.colCtx, bgId);
-					if (dynaPolyActor != null):
+					if (dynaPolyActor != NULL):
 						ArmsHook_AttachHookToActor(this, dynaPolyActor.actor);
 					
 				
@@ -283,13 +283,13 @@ func ArmsHook_process():
 	var pad;
 	
 	var player = GET_PLAYER(play);
-	sp78;
+	var sp78;
 	var hookNewTip:Vector3;
 	var hookNewBase:Vector3;
 	var sp5C:float;
 	var sp58:float;
 #
-	#if ((player.actor.process != null) and (player.rightHandType == PLAYER_MODELTYPE_RH_HOOKSHOT)):
+	#if ((player.actor.process != NULL) and (player.rightHandType == PLAYER_MODELTYPE_RH_HOOKSHOT)):
 		#OPEN_DISPS(play.state.gfxCtx, "../z_arms_hook.c", 850);
 #
 		#if (1):
