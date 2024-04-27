@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://de07kd11hjrgs"]
+
+[ext_resource type="Script" path="res://cfeature/test/varref_test.gd" id="1_67p22"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_67p22")
