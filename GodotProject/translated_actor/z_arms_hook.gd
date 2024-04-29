@@ -31,12 +31,13 @@ func attach_player():
 	player.heldActor = self;
 func chk_cancel():
 	if (player.HoldsHookshot()):
-		if (player.flags & ACTOR_FLAG_TALK):# or (player.itemAction != player.heldItemAction) or  or
-			#((player.stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))):
-			self.timer = 0;
-			release.emit();
-			world.origin=player.unk_3C8;
-			return 1;
+		pass
+		#if (player.flags & ACTOR_FLAG_TALK):# or (player.itemAction != player.heldItemAction) or  or
+			##((player.stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))):
+			#self.timer = 0;
+			#release.emit();
+			#world.origin=player.unk_3C8;
+			#return 1;
 	return 0;
 func shoot(_delta):
 
@@ -47,7 +48,7 @@ func shoot(_delta):
 
 	#func_8002F8F0(player, NA_SE_IT_HOOKSHOT_CHAIN - SFX_FLAG);
 	chk_cancel();
-
+	$chain_sfx.play()
 	
 	timer -= _delta
 
@@ -96,11 +97,15 @@ func shoot(_delta):
 			#self.timer = 0;
 func retract(_delta):
 	
+	$chain_sfx.play()
+	
 	speed = -20
 	rotation.y = (world.origin-player.world.origin).normalized().angle_to(Vector3.LEFT)+PI
 	MoveXZGravity(_delta);
 	if world.origin.distance_to(player.world.origin) <= 1.0:
 		speed = 0.0
+		$chain_sfx.stop()
+	
 		my_velocity = Vector3.ZERO
 		state = wait
 func wait(_delta):
@@ -115,6 +120,7 @@ func wait(_delta):
 		parent = player
 		world = old
 		self.timer = length;
+
 func _on_ihit_hit(_hitter: Variant, hitspot: Variant) -> void:
 	if state != shoot:
 		return
@@ -122,18 +128,21 @@ func _on_ihit_hit(_hitter: Variant, hitspot: Variant) -> void:
 		var touchedActor = hitspot.actor
 		if not $Igrab.holding:
 			grab.emit(touchedActor);
+			if $Igrab.holding:
+				$hookstickobj_sfx.play()
 		
 		if $Igrab.grabbed and $Igrab.grabbed.actor:
 			pass
 		else:
-			for _child in touchedActor.get_children():
-				if _child is Filter:
-					if child.filter == "Hook":
-						grabbedsurface = touchedActor
-						grabbedPos = grabbedPos
-						_child.on_match($Ihook)
-						world.origin= grabbedPos;
-						self.timer = 0;
+			var trufunc = func():
+				$arrowstick_sfx.play()
+				self.timer = 0;
+				grabbedsurface = touchedActor
+				grabbedPos = grabbedPos
+				world.origin= grabbedPos;
+			var falsfunc = func():
+				$hookreflect_sfx.play()
+			$Ihook.second_actor(touchedActor,trufunc,falsfunc)
 		#Audio_PlaySfxGeneral(NA_SE_IT_ARROW_STICK_CRE, projectedPos, 4, gSfxDefaultFreqAndVolScale,
 		#					 gSfxDefaultFreqAndVolScale, gSfxDefaultReverb);
 
@@ -144,14 +153,13 @@ func _on_test_hit_surface(surface: Variant, pos: Variant, normal: Variant) -> vo
 	var intersectPos = pos
 	var polyNormal= normal
 	var can_hookshot = false
-	for _child in surface.get_children():
-			if _child is Filter:
-				if _child.filter == "Hook":
-					can_hookshot = true
-					_child.on_match($Ihook)
-					break
-	if can_hookshot:
+
+	var trufunc = func():
+		$arrowstick_sfx.play()
 		self.timer = 0;
 		world.origin= intersectPos;
 		grabbedPos = (intersectPos)
 		grabbedsurface = surface
+	var falsfunc = func():
+		$hookreflect_sfx.play()
+	$Ihook.second_actor(surface,trufunc,falsfunc)

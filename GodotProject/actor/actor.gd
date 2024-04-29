@@ -62,11 +62,8 @@ const ACTOR_FLAG_28 = 1 << 28
 
 var id: int
 var category: int
-var room: int
-var flags: int
 var home: Transform3D
 var params: int
-var objectSlot: int
 var targetMode: int
 var sfx: int
 var prev_global_transform: Transform3D
@@ -94,10 +91,6 @@ func SetProjectileSpeed(speedXYZ):
 	speed = (world.basis.y).dot(Vector3.UP)* speedXYZ;
 	my_velocity.y = -(world.basis.y).dot(Vector3.FORWARD) * speedXYZ;
 var minmy_velocityY: float
-var wallPoly#: CollisionPoly
-var floorPoly#: CollisionPoly
-var wallBgId: int
-var floorBgId: int
 var wallYaw: int
 var floorHeight: float
 var yDistToWater: float
@@ -106,8 +99,6 @@ var yawTowardsPlayer: int
 var xyzDistToPlayerSq: float
 var xzDistToPlayer: float
 var yDistToPlayer: float
-var colChkInfo: CollisionCheckInfo
-var shape: ActorShape
 var projectedPos: Vector4
 var prevPos: Transform3D
 var isTargeted: bool
@@ -118,78 +109,7 @@ var colorFilterParams: int
 var colorFilterTimer: int
 var dropFlag: int
 var naviEnemyId: int
-var init: Callable
-var destroy: Callable
-var update: Callable
-var draw: Callable
 
-
-class ActorInit:
-	var id: int
-	var category: int
-	var flags: int
-	var objectId: int
-	var instanceSize: int
-	var init: Callable
-	var destroy: Callable
-	var update: Callable
-	var draw: Callable
-
-class DamageTable:
-	var table: Array
-
-class CollisionCheckInfoInit:
-	var health: int
-	var cylRadius: int
-	var cylHeight: int
-	var mass: int
-
-class CollisionCheckInfoInit2:
-	var health: int
-	var cylRadius: int
-	var cylHeight: int
-	var cylYShift: int
-	var mass: int
-
-class CollisionCheckInfo:
-	var damageTable: DamageTable
-	var displacement: Vector3
-	var cylRadius: int
-	var cylHeight: int
-	var cylYShift: int
-	var mass: int
-	var health: int
-	var damage: int
-	var damageEffect: int
-	var atHitEffect: int
-	var acHitEffect: int
-
-class ActorShape:
-	var rot: Vector3i
-	var face: int
-	var yOffset: float
-	var shadowDraw: Callable
-	var shadowScale: float
-	var shadowAlpha: int
-	var feetFloorFlag: int
-	var feetPos: Array
-
-class DynaPolyActor extends Actor:
-	var bgId: int
-	var unk_150: float
-	var unk_154: float
-	var unk_158: int
-	var transformFlags: int
-	var interactFlags: int
-	var unk_162: int
-
-class BodyBreak:
-	var matrices: Array
-	var objectSlots: Array
-	var count: int
-	var dLists: Array
-	var val: int
-	var prevLimbIndex: int
 func _ready() -> void:
 	world = global_transform
 

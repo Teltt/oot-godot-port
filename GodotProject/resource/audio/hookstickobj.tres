@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="SharedAudioStream" load_steps=2 format=3 uid="uid://dc4d7h6gym3q5"]
+
+[ext_resource type="Script" path="res://resource/SharedAudioStream.gd" id="1_y8w2v"]
+
+[resource]
+script = ExtResource("1_y8w2v")

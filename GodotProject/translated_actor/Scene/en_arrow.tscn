@@ -1,10 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://ckj4368tmscos"]
+[gd_scene load_steps=14 format=3 uid="uid://ckj4368tmscos"]
 
 [ext_resource type="PackedScene" uid="uid://c76bo1t6s7wt0" path="res://translated_actor/Scene/Actor.tscn" id="1_vb87q"]
 [ext_resource type="Script" path="res://translated_actor/en_arrow.gd" id="2_bxa1h"]
 [ext_resource type="PackedScene" uid="uid://wokspupcjtas" path="res://cfeature/interface/collisiontest.tscn" id="2_tg45a"]
 [ext_resource type="PackedScene" uid="uid://dkk1y0y6bpmcb" path="res://cfeature/interface/igrab.tscn" id="4_crj3y"]
 [ext_resource type="PackedScene" uid="uid://b2e7slcutuyrq" path="res://cfeature/interface/ihit.tscn" id="5_b74we"]
+[ext_resource type="Script" path="res://cfeature/interface/audio.gd" id="6_eaonk"]
+[ext_resource type="Resource" uid="uid://dfxvbqr187jwj" path="res://resource/audio/slingshot.tres" id="7_747vn"]
+[ext_resource type="Resource" uid="uid://djs3b6n4dhx1n" path="res://resource/audio/arrowshot.tres" id="8_7os3r"]
+[ext_resource type="Resource" uid="uid://b6rxyu6nubvgq" path="res://resource/audio/magicarrowshot.tres" id="9_4n1ci"]
+[ext_resource type="Resource" uid="uid://nlojwg4a605s" path="res://resource/audio/dekunut.tres" id="10_wmcwx"]
+[ext_resource type="Resource" uid="uid://c63s5e14cmnqr" path="res://resource/audio/slingshot_reflect.tres" id="11_fyii1"]
+[ext_resource type="Resource" uid="uid://bgf5nr5h6mhwj" path="res://resource/audio/arrowstick.tres" id="12_61lx3"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_fvgq8"]
 top_radius = 0.225
@@ -28,6 +35,30 @@ my_flags = 1
 [node name="Ihit" parent="." index="4" node_paths=PackedStringArray("actor") instance=ExtResource("5_b74we")]
 actor = NodePath("..")
 my_flags = 2
+
+[node name="slingshot_sfx" type="AudioStreamPlayer3D" parent="." index="5"]
+script = ExtResource("6_eaonk")
+audio_shared = ExtResource("7_747vn")
+
+[node name="arrow_shot_sfx" type="AudioStreamPlayer3D" parent="." index="6"]
+script = ExtResource("6_eaonk")
+audio_shared = ExtResource("8_7os3r")
+
+[node name="magic_arrow_shot_sfx" type="AudioStreamPlayer3D" parent="." index="7"]
+script = ExtResource("6_eaonk")
+audio_shared = ExtResource("9_4n1ci")
+
+[node name="dekunut_sfx" type="AudioStreamPlayer3D" parent="." index="8"]
+script = ExtResource("6_eaonk")
+audio_shared = ExtResource("10_wmcwx")
+
+[node name="sling_reflect" type="AudioStreamPlayer3D" parent="." index="9"]
+script = ExtResource("6_eaonk")
+audio_shared = ExtResource("11_fyii1")
+
+[node name="arrowstick_sfx" type="AudioStreamPlayer3D" parent="." index="10"]
+script = ExtResource("6_eaonk")
+audio_shared = ExtResource("12_61lx3")
 
 [connection signal="carry" from="." to="Igrab" method="grab"]
 [connection signal="process_carried" from="." to="Igrab" method="process_grab"]

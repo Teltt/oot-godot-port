@@ -106,7 +106,7 @@ func hit(_delta):
 
 func fly(_delta):
 	var arrow:Actor = parent
-	if arrow == null or arrow.update == null:
+	if arrow == null or not arrow.is_processing():
 		queue_free()
 		return
 
@@ -181,3 +181,6 @@ func _physics_process(_delta: float) -> void:
 	#gSPDisplayList(POLY_XLU_DISP, sModelDL)
 #
 	#CLOSE_DISPS(play.state.gfxCtx, "../z_arrow_fire.c", 682)
+func _process(delta: float) -> void:
+	world = parent.world
+	super(delta)

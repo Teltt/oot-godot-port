@@ -55,11 +55,16 @@ func shoot(_delta):
 		#	queue_free()
 		#	return
 		state = ( fly)
+		if params == ARROW_SEED:
+			$slingshot_sfx.play()
+		elif params == ARROW_NORMAL or params == ARROW_NORMAL_HORSE or ARROW_NORMAL_LIT:
+			$arrow_shot_sfx.play()
+		elif params == ARROW_FIRE or params == ARROW_ICE or params == ARROW_LIGHT:
+			$magic_arrow_shot_sfx.play()
 		unk_210 = world.origin
 		if params >= ARROW_SEED:
 			SetProjectileSpeed(80.0)
 			timer = 15
-			shape.rot = Vector3()
 		else:
 			SetProjectileSpeed(150.0)
 			timer = 12
@@ -78,14 +83,13 @@ func fly(_delta):
 				world.origin.x = (world.origin.x + prevPos.origin.x) * 0.5
 				world.origin.y = (world.origin.y + prevPos.origin.y) * 0.5
 				world.origin.z = (world.origin.z + prevPos.origin.z) * 0.5
-			#if params == ARROW_NUT:
+			if params == ARROW_NUT:
 				## R_TRANS_FADE_FLASH_ALPHA_STEP = -1
 				## Actor_Spawn(&play->actorCtx, play, ACTOR_EN_M_FIRE1, world.origin.x, world.origin.y, world.origin.z, 0, 0, 0, 0)
-				#sfx_id = NA_SE_IT_DEKU
-			#else:
-				#sfx_id = NA_SE_IT_SLING_REFLECT
-			## EffectSsStone1_Spawn(play, &world.origin, 0)
-			#SfxSource_PlaySfxAtFixedWorldPos(play, world.origin, 20, sfx_id)
+				
+				$dekunut_sfx.play()
+			else:
+				$sling_reflect.play()
 			queue_free()
 		else:
 			pass
@@ -226,11 +230,10 @@ func _on_ihit_hit(_hitter: Variant, hitspot: Variant) -> void:
 				if hit_actor.is_processing() :# and hit_actor.flags & ACTOR_FLAG_14
 					
 					EnArrow_CarryActor()
-					hit_actor.flags |= ACTOR_FLAG_15
 				else:
 					hit_flags |= 1
 					hit_flags |= 2
 					world.origin = hitspot.global_position
 					func_809B3CEC()
-					#Actor_PlaySfx(self, NA_SE_IT_ARROW_STICK_CRE)
+					$arrowstick_sfx.play()
 	pass # Replace with function body.

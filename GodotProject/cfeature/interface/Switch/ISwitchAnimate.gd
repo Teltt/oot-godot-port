@@ -4,7 +4,7 @@ extends AnimationPlayer
 @export var skips_inital_switch_anim = true
 func _ready() -> void:
 	on_ready(switch.v)
-	switch.send_state.connect(receive_request)
+	switch.send_changed_value.connect(receive_request)
 func receive_request(v):
 	play(switch_to_animation_name[v])
 func on_ready(v):

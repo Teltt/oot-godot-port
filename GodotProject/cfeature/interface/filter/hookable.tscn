@@ -1,7 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cd2jgnc6tkvos"]
+[gd_scene load_steps=2 format=3 uid="uid://btl2be57nfgmv"]
 
-[ext_resource type="Script" path="res://cfeature/interface/filter/IFilterMatch.gd" id="1_nfo23"]
+[ext_resource type="Script" path="res://cfeature/interface/filter/IFilter.gd" id="1_8rcuf"]
 
-[node name="HookShotable" type="Node"]
-script = ExtResource("1_nfo23")
+[node name="Ihookable" type="Node"]
+script = ExtResource("1_8rcuf")
 filter = &"Hook"

@@ -40,6 +40,5 @@ func set_broken(_unused=null,_unused2=null):
 	switch.v = true
 	collision.shape = broken_collision
 	mesh = broken_mesh
-#	if play_discovery_jingle:
-#		Sfx.play_sfx_centered(NA_SE_SY_CORRECT_CHIME)
-	#Flags.set_switch(play, self.dyna.actor.params & 0x3F)
+	if play_discovery_jingle:
+		$discover_sfx.play()

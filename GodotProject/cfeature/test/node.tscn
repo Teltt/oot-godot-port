@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://de07kd11hjrgs"]
+[gd_scene load_steps=17 format=3 uid="uid://de07kd11hjrgs"]
 
 [ext_resource type="PackedScene" uid="uid://c76bo1t6s7wt0" path="res://translated_actor/Scene/Actor.tscn" id="1_m7waf"]
 [ext_resource type="Script" path="res://translated_actor/Player.gd" id="2_pr64j"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d1vmrwpq0a5yq" path="res://cfeature/interface/ihitable.tscn" id="5_p6fy1"]
 [ext_resource type="PackedScene" uid="uid://bbey3my1wgvv1" path="res://translated_actor/Scene/bg_bomb_wall.tscn" id="5_uoq1m"]
 [ext_resource type="PackedScene" uid="uid://b1smw8cgao2ot" path="res://translated_actor/Scene/Hookshot.tscn" id="6_4sn2o"]
+[ext_resource type="PackedScene" uid="uid://ckj4368tmscos" path="res://translated_actor/Scene/en_arrow.tscn" id="7_kvucs"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jbffc"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -75,8 +76,6 @@ broken_mesh = SubResource("PlaneMesh_xkuf1")
 full_collision = SubResource("BoxShape3D_8npti")
 full_mesh = SubResource("BoxMesh_klh4q")
 
-[node name="Actor3" parent="Node3D" instance=ExtResource("6_4sn2o")]
+[node name="Actor3" parent="Node3D" instance=ExtResource("7_kvucs")]
 
-[connection signal="grab" from="Node3D/Actor3" to="Node3D/Actor3/Igrab" method="grab"]
-[connection signal="process_grab" from="Node3D/Actor3" to="Node3D/Actor3/Igrab" method="process_grab"]
-[connection signal="release" from="Node3D/Actor3" to="Node3D/Actor3/Igrab" method="release"]
+[node name="Actor4" parent="Node3D" instance=ExtResource("6_4sn2o")]
