@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://de07kd11hjrgs"]
+[gd_scene load_steps=16 format=3 uid="uid://de07kd11hjrgs"]
 
-[ext_resource type="PackedScene" uid="uid://b1smw8cgao2ot" path="res://translated_actor/Scene/Hookshot.tscn" id="1_25etl"]
 [ext_resource type="PackedScene" uid="uid://c76bo1t6s7wt0" path="res://translated_actor/Scene/Actor.tscn" id="1_m7waf"]
-[ext_resource type="PackedScene" uid="uid://ckj4368tmscos" path="res://translated_actor/Scene/en_arrow.tscn" id="1_ughih"]
 [ext_resource type="Script" path="res://translated_actor/Player.gd" id="2_pr64j"]
-[ext_resource type="PackedScene" uid="uid://dxbjlegp782" path="res://translated_actor/Scene/arrow_fire.tscn" id="4_ay7l7"]
+[ext_resource type="PackedScene" uid="uid://d2uv6414knapq" path="res://cfeature/interface/igrabable.tscn" id="5_my4wv"]
+[ext_resource type="PackedScene" uid="uid://d1vmrwpq0a5yq" path="res://cfeature/interface/ihitable.tscn" id="5_p6fy1"]
+[ext_resource type="PackedScene" uid="uid://bbey3my1wgvv1" path="res://translated_actor/Scene/bg_bomb_wall.tscn" id="5_uoq1m"]
+[ext_resource type="PackedScene" uid="uid://b1smw8cgao2ot" path="res://translated_actor/Scene/Hookshot.tscn" id="6_4sn2o"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jbffc"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -21,6 +22,18 @@ glow_enabled = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_rtffx"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rn6m0"]
+radius = 0.12773
+height = 0.512171
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ddgq6"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xkuf1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8npti"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_klh4q"]
+
 [node name="Node" type="Node"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -32,20 +45,34 @@ shadow_enabled = true
 
 [node name="Node3D" type="Node3D" parent="." groups=["world"]]
 
-[node name="Actor4" parent="Node3D" instance=ExtResource("1_ughih")]
-visible = false
-
 [node name="Camera3D" type="Camera3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 0.489154, 0.872197, 0, -0.872197, 0.489154, 0, 44.3009, 83.772)
-
-[node name="Actor2" parent="Node3D" instance=ExtResource("1_25etl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.27, 13)
 
 [node name="Actor" parent="Node3D" groups=["player"] instance=ExtResource("1_m7waf")]
 script = ExtResource("2_pr64j")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Actor"]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_rtffx")
 
-[node name="Actor3" parent="Node3D" instance=ExtResource("4_ay7l7")]
-visible = false
+[node name="Ihitable" parent="Node3D/Actor" node_paths=PackedStringArray("actor") instance=ExtResource("5_p6fy1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7429, 0, 0)
+actor = NodePath("..")
+
+[node name="Area3D" type="Area3D" parent="Node3D/Actor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/Actor/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00564933, -0.015426, -0.00999159)
+shape = SubResource("CapsuleShape3D_rn6m0")
+
+[node name="Igrabable" parent="Node3D/Actor" node_paths=PackedStringArray("actor") instance=ExtResource("5_my4wv")]
+actor = NodePath("..")
+my_flags = 2
+
+[node name="Actor2" parent="Node3D" instance=ExtResource("5_uoq1m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.55893, 0, 0.00750017)
+broken_collision = SubResource("ConcavePolygonShape3D_ddgq6")
+broken_mesh = SubResource("PlaneMesh_xkuf1")
+full_collision = SubResource("BoxShape3D_8npti")
+full_mesh = SubResource("BoxMesh_klh4q")
+
+[node name="Actor3" parent="Node3D" instance=ExtResource("6_4sn2o")]

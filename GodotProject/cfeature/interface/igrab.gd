@@ -1,7 +1,7 @@
 extends Node3D
 @export var actor:Actor
 @onready var parent = get_parent()
-var holding
+var holding = false
 var grabbed:GRABABLE:
 	set(value):
 		if grabbed != null:
@@ -15,13 +15,13 @@ var grabbed:GRABABLE:
 
 @export var my_flags:GRABABLE.Enum
 func grab(_actor:Actor):
-	for child in _actor.get_children():
-		if child is GRABABLE:
-			if child._is(my_flags):
-				grabbed = child
+	for _child in _actor.get_children():
+		if _child is GRABABLE:
+			if _child._is(my_flags):
+				grabbed = _child
 				return
 func release():
 	grabbed = null
 func process_grab():
 	if holding:
-		grabbed.parent.global_transform = global_transform*grabbed.transform
+		grabbed.actor.global_transform = global_transform*grabbed.transform

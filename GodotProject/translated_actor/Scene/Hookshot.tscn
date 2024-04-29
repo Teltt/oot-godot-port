@@ -1,16 +1,36 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1smw8cgao2ot"]
+[gd_scene load_steps=9 format=3 uid="uid://b1smw8cgao2ot"]
 
 [ext_resource type="PackedScene" uid="uid://c76bo1t6s7wt0" path="res://translated_actor/Scene/Actor.tscn" id="1_wgpgv"]
 [ext_resource type="PackedScene" uid="uid://wokspupcjtas" path="res://cfeature/interface/collisiontest.tscn" id="2_onn2c"]
 [ext_resource type="Script" path="res://translated_actor/z_arms_hook.gd" id="2_v6y1o"]
+[ext_resource type="PackedScene" uid="uid://b2e7slcutuyrq" path="res://cfeature/interface/ihit.tscn" id="4_b2cm6"]
+[ext_resource type="PackedScene" uid="uid://dkk1y0y6bpmcb" path="res://cfeature/interface/igrab.tscn" id="5_h7slb"]
+[ext_resource type="Script" path="res://cfeature/interface/IBombHit.gd" id="6_yb0t1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_6tnxq"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_okj44"]
+radius = 0.11
 
 [node name="Actor" instance=ExtResource("1_wgpgv")]
 script = ExtResource("2_v6y1o")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
-transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 0, 0)
 mesh = SubResource("BoxMesh_6tnxq")
 
 [node name="Test" parent="." index="2" instance=ExtResource("2_onn2c")]
+shape = SubResource("SphereShape3D_okj44")
+
+[node name="Igrab" parent="." index="3" node_paths=PackedStringArray("actor") instance=ExtResource("5_h7slb")]
+actor = NodePath("..")
+
+[node name="Ihit" parent="." index="4" node_paths=PackedStringArray("actor") instance=ExtResource("4_b2cm6")]
+actor = NodePath("..")
+my_flags = 2
+
+[node name="Node" type="Node" parent="." index="5"]
+script = ExtResource("6_yb0t1")
+
+[connection signal="hit_actor" from="Test" to="Ihit" method="from_collision_test"]
+[connection signal="hit_surface" from="Test" to="." method="_on_test_hit_surface"]
+[connection signal="hit" from="Ihit" to="." method="_on_ihit_hit"]

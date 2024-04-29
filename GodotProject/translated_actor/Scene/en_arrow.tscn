@@ -12,6 +12,7 @@ bottom_radius = 0.0
 
 [node name="Actor" instance=ExtResource("1_vb87q")]
 script = ExtResource("2_bxa1h")
+carry_distance = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
 transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
@@ -19,10 +20,17 @@ mesh = SubResource("CylinderMesh_fvgq8")
 
 [node name="Test" parent="." index="2" instance=ExtResource("2_tg45a")]
 
-[node name="Igrab" parent="." index="3" instance=ExtResource("4_crj3y")]
+[node name="Igrab" parent="." index="3" node_paths=PackedStringArray("actor") instance=ExtResource("4_crj3y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.838506, 0, 0)
+actor = NodePath("..")
+my_flags = 2
 
-[node name="Ihit" parent="." index="4" instance=ExtResource("5_b74we")]
+[node name="Ihit" parent="." index="4" node_paths=PackedStringArray("actor") instance=ExtResource("5_b74we")]
+actor = NodePath("..")
+my_flags = 8
 
+[connection signal="carry" from="." to="Igrab" method="grab"]
+[connection signal="process_carried" from="." to="Igrab" method="process_grab"]
+[connection signal="release" from="." to="Igrab" method="release"]
 [connection signal="hit_actor" from="Test" to="Ihit" method="from_collision_test"]
 [connection signal="hit" from="Ihit" to="." method="_on_ihit_hit"]

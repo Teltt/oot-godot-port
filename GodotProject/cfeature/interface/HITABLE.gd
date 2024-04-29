@@ -26,6 +26,8 @@ const AC_TYPE_ALL= (AC_TYPE_PLAYER | AC_TYPE_ENEMY | AC_TYPE_OTHER) # Takes dama
 @onready var parent = get_parent()
 
 func _is(flags):
-	
-	return (flags &my_flags) == my_flags
+	if true:
+		return (flags &my_flags) != 0
+	else:
+		hit.emit(null,null)
 signal hit(hitter,hitspot)

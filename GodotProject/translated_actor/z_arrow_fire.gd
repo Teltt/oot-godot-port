@@ -65,7 +65,7 @@ func charge(_delta):
 		state =(fly)
 		alpha = 255
 
-func func_80865ECC(unkPos: Vector3, firePos: Vector3, sc: float):
+func func_80865ECC( firePos: Vector3, sc: float):
 	unkPos.x += (firePos.x - unkPos.x) * sc
 	unkPos.y += (firePos.y - unkPos.y) * sc
 	unkPos.z += (firePos.z - unkPos.z) * sc
@@ -116,7 +116,7 @@ func fly(_delta):
 	unk_158 = distanceScaled
 	if distanceScaled < 1.0:
 		unk_158 = 1.0
-	func_80865ECC(unkPos, world.origin, 0.05)
+	func_80865ECC(world.origin, 0.05)
 
 	if arrow.hitFlags & 1:
 		#Actor_PlaySfx(NA_SE_IT_EXPLOSION_FRAME)

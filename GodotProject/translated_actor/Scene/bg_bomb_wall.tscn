@@ -1,0 +1,40 @@
+[gd_scene load_steps=10 format=3 uid="uid://bbey3my1wgvv1"]
+
+[ext_resource type="Script" path="res://translated_actor/bg_bombwall.gd" id="1_xnu17"]
+[ext_resource type="PackedScene" uid="uid://dimkq55oavxmo" path="res://cfeature/interface/actor_collision_flags.tscn" id="2_42w1i"]
+[ext_resource type="PackedScene" uid="uid://d1vmrwpq0a5yq" path="res://cfeature/interface/ihitable.tscn" id="3_f3fm2"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_x8vdi"]
+
+[sub_resource type="PointMesh" id="PointMesh_l7l5c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7l0rn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rdn81"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tefyo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_63a8s"]
+
+[node name="Actor" type="CharacterBody3D"]
+script = ExtResource("1_xnu17")
+broken_collision = SubResource("ConcavePolygonShape3D_x8vdi")
+broken_mesh = SubResource("PointMesh_l7l5c")
+full_collision = SubResource("BoxShape3D_7l0rn")
+full_mesh = SubResource("BoxMesh_rdn81")
+save_data_flag = &"bomb_wall1"
+
+[node name="Child" type="Node3D" parent="."]
+
+[node name="ActorCollisionFlags" parent="." instance=ExtResource("2_42w1i")]
+my_flags = 2
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_tefyo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_63a8s")
+
+[node name="Ihitable" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("3_f3fm2")]
+actor = NodePath("..")
+my_flags = 2

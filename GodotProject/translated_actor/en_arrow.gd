@@ -39,34 +39,12 @@ func _ready():
 		params = ARROW_NUT
 	if params <= ARROW_SEED:
 		pass
-		#if params <= ARROW_0E:
-		#	SkelAnime_Init(play, self.skel_anime, gArrowSkel, gArrow2Anim, null, null, 0)
-		#if params <= ARROW_NORMAL:
-			#if params == ARROW_NORMAL_HORSE:
-				#blure_normal.elem_duration = 4
-			#else:
-				#blure_normal.elem_duration = 16
-			## Effect_Add(play, &self.effect_index, EFFECT_BLURE2, 0, 0, &blure_normal)
-		#elif params == ARROW_FIRE:
-			## Effect_Add(play, &self.effect_index, EFFECT_BLURE2, 0, 0, &blure_fire)
-		#elif params == ARROW_ICE:
-			## Effect_Add(play, &self.effect_index, EFFECT_BLURE2, 0, 0, &blure_ice)
-		#elif params == ARROW_LIGHT:
-			## Effect_Add(play, &self.effect_index, EFFECT_BLURE2, 0, 0, &blure_light)
-		#Collider_InitQuad(play, self.collider)
-		#Collider_SetQuad(play, self.collider, self, &sColliderInit)
-		#if params <= ARROW_NORMAL:
-			#self.collider.elem.at_elem_flags &= ~ATELEM_SFX_MASK
-			#self.collider.elem.at_elem_flags |= ATELEM_SFX_NORMAL
-		#if params < 0:
-			#self.collider.base.at_flags = (AT_ON | AT_TYPE_ENEMY)
-		#else:
-			#self.collider.elem.at_dmg_info.dmg_flags = dmg_flags[params]
 	state = ( shoot)
 
 func _exit_tree() -> void:
 	if is_queued_for_deletion():
 		if hit_actor != null and hit_actor.is_processing():
+			release.emit()
 			hit_actor.flags &= ~ACTOR_FLAG_15
 
 
@@ -92,7 +70,7 @@ func fly(_delta):
 	if timer < 7.2000003:
 		gravity = -0.4
 	timer -=_delta
-	var at_touched = params >= ARROW_SEED and params <= ARROW_SEED #and collider.base.at_flags & AT_HIT
+	var at_touched = params >= ARROW_SEED and params <= ARROW_SEED 
 	if at_touched or touched_poly:
 		if params >= ARROW_SEED:
 			if at_touched:
@@ -134,7 +112,7 @@ func fly(_delta):
 			#pos_copy = world.origin
 			world.origin = test.get_collision_point(0)
 		if params <= ARROW_0E:
-			rotation.x = atan2(speed, -velocity.y)
+			rotation.x = atan2(speed, -my_velocity.y)
 	if hit_actor != null:
 		if hit_actor.is_processing():
 			var sp60 = unk_210 + unk_250
@@ -142,21 +120,7 @@ func fly(_delta):
 			if not test.shape:
 				test.shape = SphereShape3D.new()
 				test.shape.radius = 0.01
-			test.target_position =-(sp60-sp54)
-			test._force_shapecast_update()
-			if test.is_colliding():
-				var hit_point = test.get_collision_point(0)
-				hit_actor.world.origin.x = hit_point.x + ( 1.0 if (sp54.x <= hit_point.x) else -1.0)
-				hit_actor.world.origin.y = hit_point.y +  ( 1.0 if (sp54.y <= hit_point.y) else -1.0)
-				hit_actor.world.origin.z = hit_point.z +  ( 1.0 if (sp54.z <= hit_point.z) else -1.0)
-				unk_250 = hit_actor.world.origin - world.origin
-				hit_actor.flags &= ~ACTOR_FLAG_15
-				hit_actor = null
-			else:
-				hit_actor.world.origin = sp54
-			if touched_poly and hit_actor != null:
-				hit_actor.flags &= ~ACTOR_FLAG_15
-				hit_actor = null
+
 func func_809B4640(_delta):
    # SkelAnime_Update(&this->skelAnime);
 	MoveXZGravity(_delta);
@@ -167,21 +131,24 @@ func func_809B3CEC():
 	state = (func_809B4640)
 	#Animation_PlayOnce(skel_anime, gArrow1Anim)
 	rotation.y += roundf(24576.0 * (randf_range(0,1) - 0.5) + 0x8000)
-	velocity.y += speed * (0.4 + 0.4 * randf_range(0,1))
+	my_velocity.y += speed * (0.4 + 0.4 * randf_range(0,1))
 	speed *= 0.04 + 0.3 * randf_range(0,1)
 	timer = 50
 	gravity = -1.5
 signal carry(actor)
 signal release
+@export var carry_distance:float = 10
+var carry_origin:Vector3
 func EnArrow_CarryActor():
-	var pos_diff_last_frame = world.origin - unk_210
-	var temp_f12 = (world.origin.x - hit_actor.world.origin.x) * pos_diff_last_frame.x + (world.origin.y - hit_actor.world.origin.y) * pos_diff_last_frame.y + (world.origin.z - hit_actor.world.origin.z) * pos_diff_last_frame.z
-	if temp_f12 < 0.0:
+	
+	if not $Igrab.holding:
+		carry_origin = global_position
 		carry.emit(hit_actor)
-	else:
-		release.emit()
-
+signal process_carried
 func _physics_process(_delta: float) -> void:
+	process_carried.emit()
+	if carry_origin.distance_to(global_position) > carry_distance:
+		release.emit()
 	if is_cs_nut or (params >= ARROW_NORMAL_LIT):# and player.unk_A73 != 0):# or not Player_InBlockingCsMode(play, player):
 		state.call(_delta)
 	if params >= ARROW_FIRE and params <= ARROW_0E:
@@ -190,8 +157,11 @@ func _physics_process(_delta: float) -> void:
 			child = preload("res://translated_actor/Scene/arrow_fire.tscn").instantiate()
 			#Actor_SpawnAsChild(play, self, elemental_actor_ids[params - 3], world.origin.x, world.origin.y, world.origin.z, 0, 0, 0, 0)
 	#elif params == ARROW_NORMAL_LIT:
-		# func_8002836C(play, &unk_21C, &velocity, &accel, &prim_color, &env_color, 100, 0, 8)
+		# func_8002836C(play, &unk_21C, &my_velocity, &accel, &prim_color, &env_color, 100, 0, 8)
 
+static var D_809B4E88 = Vector3( 0.0, 400.0, 1500.0);
+static var D_809B4E94 = Vector3( 0.0, -400.0, 1500.0);
+static var D_809B4EA0 = Vector3(0.0, 0.0, -300.0)
 func func_809B4800():
 	pass
 	#if state == fly:
@@ -241,19 +211,17 @@ func EnArrow_Draw():
 
 
 
-func _on_ihit_hit(hitter: Variant, hitspot: Variant) -> void:
+func _on_ihit_hit(_hitter: Variant, hitspot: Variant) -> void:
 	if state == fly:
 				hit_actor = hitspot.actor
-				if hit_actor.is_processing()  and hit_actor.flags & ACTOR_FLAG_14:
-					hit_actor = hit_actor
+				if hit_actor.is_processing() :# and hit_actor.flags & ACTOR_FLAG_14
+					
 					EnArrow_CarryActor()
 					hit_actor.flags |= ACTOR_FLAG_15
-					speed /= 2.0
-					velocity.y /= 2.0
 				else:
 					hit_flags |= 1
 					hit_flags |= 2
-					world.origin = collider.pos
+					world.origin = hitspot.global_position
 					func_809B3CEC()
 					#Actor_PlaySfx(self, NA_SE_IT_ARROW_STICK_CRE)
 	pass # Replace with function body.

@@ -15,7 +15,20 @@ run/main_scene="res://cfeature/test/node.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Save="*res://global/SaveGlobal.gd"
+
+[editor]
+
+movie_writer/movie_file="/home/elated/Downloads/Godot/Bevy/movie.avi"
+movie_writer/disable_vsync=true
+
 [global_group]
 
 world=""
 player=""
+
+[physics]
+
+common/physics_ticks_per_second=20

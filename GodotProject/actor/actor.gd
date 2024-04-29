@@ -15,7 +15,10 @@ var child:
 var parent:
 	set(value):
 		if value != null:
-			reparent(value,false)
+			if value is Actor:
+				reparent(value.get_node("Child"),true)
+			else:
+				reparent(value,true)
 		else:
 			reparent(get_tree().get_first_node_in_group("world"))
 	get:
@@ -66,19 +69,31 @@ var params: int
 var objectSlot: int
 var targetMode: int
 var sfx: int
+var prev_global_transform: Transform3D
 var world: Transform3D:
 	set(value):
-		global_transform = value
+		prev_global_transform = global_transform
+		physics_interpolation = 0.0
+		world = value
 	get:
-		return global_transform
+		return world
 var focus: Transform3D
-var velocity: Vector3
+var my_velocity: Vector3:
+	set(value):
+		if has_method("set_velocity"):
+			self["set_velocity"].call(value)
+		my_velocity = value
+	get:
+		if has_method("get_velocity"):
+			return self["get_velocity"].call()
+		return my_velocity
+		
 var speed: float
 var gravity: float
 func SetProjectileSpeed(speedXYZ):
 	speed = (world.basis.y).dot(Vector3.UP)* speedXYZ;
-	velocity.y = -(world.basis.y).dot(Vector3.FORWARD) * speedXYZ;
-var minVelocityY: float
+	my_velocity.y = -(world.basis.y).dot(Vector3.FORWARD) * speedXYZ;
+var minmy_velocityY: float
 var wallPoly#: CollisionPoly
 var floorPoly#: CollisionPoly
 var wallBgId: int
@@ -175,25 +190,33 @@ class BodyBreak:
 	var dLists: Array
 	var val: int
 	var prevLimbIndex: int
-
+func _ready() -> void:
+	world = global_transform
 
 func UpdatePos(_delta:float) :
 	var speedRate = _delta * 0.5;
 
-	world.origin.x += (velocity.x * speedRate);
-	world.origin.y += (velocity.y * speedRate);
-	world.origin.z += (velocity.z * speedRate);
+	world.origin.x += (my_velocity.x * speedRate);
+	world.origin.y += (my_velocity.y * speedRate);
+	world.origin.z += (my_velocity.z * speedRate);
 
-func UpdateVelocityXZGravity(_delta:float) :
+func Updatemy_velocityXZGravity(_delta:float) :
 	var forward = world.basis.x
-	velocity.x = forward.x * speed;
-	velocity.z = forward.z * speed;
+	my_velocity.x = forward.x * speed;
+	my_velocity.z = forward.z * speed;
 
-	velocity.y += gravity;
+	my_velocity.y += gravity;
 
-	if (velocity.y < minVelocityY):
-		velocity.y = minVelocityY;
+	if (my_velocity.y < minmy_velocityY):
+		my_velocity.y = minmy_velocityY;
 
 func MoveXZGravity(_delta:float) :
-	UpdateVelocityXZGravity(_delta);
+	Updatemy_velocityXZGravity(_delta);
 	UpdatePos(_delta);
+const PHYSICS_FRAMRATE =20.0
+var physics_interpolation = 0.0
+func _process(_delta: float) -> void:
+	physics_interpolation+= _delta*20*0.333333333333
+	physics_interpolation = min(physics_interpolation,1.0)
+	global_transform = prev_global_transform.interpolate_with(world,physics_interpolation)
+	pass

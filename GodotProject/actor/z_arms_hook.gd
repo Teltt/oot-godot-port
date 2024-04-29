@@ -158,7 +158,7 @@ func ArmsHook_Shoot():
 		var  pad1:int;
 		var  curGrabbedDist:float;
 		var  grabbedDist:float;
-		var  velocity:float;
+		var  my_velocity:float;
 
 		grabbed = self.grabbed;
 		if (grabbed != NULL) :
@@ -178,26 +178,26 @@ func ArmsHook_Shoot():
 
 		bodyDistDiff = Math_Vector3_DistXYZAndStoreDiff(player.unk_3C8, self.actor.world.pos, bodyDistDiffVec);
 		if (bodyDistDiff < 30.0):
-			velocity = 0.0;
+			my_velocity = 0.0;
 			phi_f16 = 0.0;
 		else:
 			if (self.actor.child != NULL):
-				velocity = 30.0;
+				my_velocity = 30.0;
 			elif (grabbed != NULL):
-				velocity = 50.0;
+				my_velocity = 50.0;
 			else:
-				velocity = 200.0;
+				my_velocity = 200.0;
 			
-			phi_f16 = bodyDistDiff - velocity;
-			if (bodyDistDiff <= velocity):
+			phi_f16 = bodyDistDiff - my_velocity;
+			if (bodyDistDiff <= my_velocity):
 				phi_f16 = 0.0;
 			
-			velocity = phi_f16 / bodyDistDiff;
+			my_velocity = phi_f16 / bodyDistDiff;
 		
 
-		newPos.x = bodyDistDiffVec.x * velocity;
-		newPos.y = bodyDistDiffVec.y * velocity;
-		newPos.z = bodyDistDiffVec.z * velocity;
+		newPos.x = bodyDistDiffVec.x * my_velocity;
+		newPos.y = bodyDistDiffVec.y * my_velocity;
+		newPos.z = bodyDistDiffVec.z * my_velocity;
 
 		if (self.actor.child == NULL):
 			if ((grabbed != NULL) and (grabbed.id == ACTOR_BG_SPOT06_OBJECTS)):
@@ -210,7 +210,7 @@ func ArmsHook_Shoot():
 				
 			
 		else:
-			Math_Vector3_Diff(bodyDistDiffVec, newPos, player.actor.velocity);
+			Math_Vector3_Diff(bodyDistDiffVec, newPos, player.actor.my_velocity);
 			player.actor.world.rot.x =Math_Atan2S(sqrtf(SQ(bodyDistDiffVec.x) + SQ(bodyDistDiffVec.z)), -bodyDistDiffVec.y);
 		
 
@@ -219,8 +219,8 @@ func ArmsHook_Shoot():
 			if (phi_f16 == 0.0):
 				ArmsHook_SetupAction(this, ArmsHook_Wait);
 				if (ArmsHook_AttachToPlayer(this, player)):
-					Math_Vector3_Diff(self.actor.world.pos, player.actor.world.pos, player.actor.velocity);
-					player.actor.velocity.y -= 20.0;
+					Math_Vector3_Diff(self.actor.world.pos, player.actor.world.pos, player.actor.my_velocity);
+					player.actor.my_velocity.y -= 20.0;
 				
 			
 		
@@ -234,7 +234,7 @@ func ArmsHook_Shoot():
 		Actor_MoveXZGravity(self.actor);
 		Math_Vector3_Diff(self.actor.world.pos, self.actor.prevPos, prevFrameDiff);
 		Math_Vector3_Sum(self.unk_1E8, prevFrameDiff, self.unk_1E8);
-		self.actor.shape.rot.x = Math_Atan2S(self.actor.speed, -self.actor.velocity.y);
+		self.actor.shape.rot.x = Math_Atan2S(self.actor.speed, -self.actor.my_velocity.y);
 		sp60.x = self.unk_1F4.x - (self.unk_1E8.x - self.unk_1F4.x);
 		sp60.y = self.unk_1F4.y - (self.unk_1E8.y - self.unk_1F4.y);
 		sp60.z = self.unk_1F4.z - (self.unk_1E8.z - self.unk_1F4.z);
