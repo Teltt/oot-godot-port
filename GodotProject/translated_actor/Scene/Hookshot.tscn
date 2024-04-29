@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://b1smw8cgao2ot"]
+[gd_scene load_steps=10 format=3 uid="uid://b1smw8cgao2ot"]
 
 [ext_resource type="PackedScene" uid="uid://c76bo1t6s7wt0" path="res://translated_actor/Scene/Actor.tscn" id="1_wgpgv"]
 [ext_resource type="PackedScene" uid="uid://wokspupcjtas" path="res://cfeature/interface/collisiontest.tscn" id="2_onn2c"]
 [ext_resource type="Script" path="res://translated_actor/z_arms_hook.gd" id="2_v6y1o"]
 [ext_resource type="PackedScene" uid="uid://b2e7slcutuyrq" path="res://cfeature/interface/ihit.tscn" id="4_b2cm6"]
 [ext_resource type="PackedScene" uid="uid://dkk1y0y6bpmcb" path="res://cfeature/interface/igrab.tscn" id="5_h7slb"]
-[ext_resource type="Script" path="res://cfeature/interface/IBombHit.gd" id="6_yb0t1"]
+[ext_resource type="PackedScene" uid="uid://btl2be57nfgmv" path="res://cfeature/interface/filter/ihook.tscn" id="6_urds6"]
+[ext_resource type="PackedScene" uid="uid://c0bbhj5rlpucp" path="res://cfeature/interface/filter/bomb_hit.tscn" id="7_lfex8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_6tnxq"]
 
@@ -23,14 +24,21 @@ shape = SubResource("SphereShape3D_okj44")
 
 [node name="Igrab" parent="." index="3" node_paths=PackedStringArray("actor") instance=ExtResource("5_h7slb")]
 actor = NodePath("..")
+my_flags = 2
 
 [node name="Ihit" parent="." index="4" node_paths=PackedStringArray("actor") instance=ExtResource("4_b2cm6")]
 actor = NodePath("..")
 my_flags = 2
 
-[node name="Node" type="Node" parent="." index="5"]
-script = ExtResource("6_yb0t1")
+[node name="Ihook" parent="." index="5" node_paths=PackedStringArray("actor") instance=ExtResource("6_urds6")]
+actor = NodePath("..")
 
+[node name="BombHit" parent="." index="6" node_paths=PackedStringArray("actor") instance=ExtResource("7_lfex8")]
+actor = NodePath("..")
+
+[connection signal="grab" from="." to="Igrab" method="grab"]
+[connection signal="process_grab" from="." to="Igrab" method="process_grab"]
+[connection signal="release" from="." to="Igrab" method="release"]
 [connection signal="hit_actor" from="Test" to="Ihit" method="from_collision_test"]
 [connection signal="hit_surface" from="Test" to="." method="_on_test_hit_surface"]
 [connection signal="hit" from="Ihit" to="." method="_on_ihit_hit"]

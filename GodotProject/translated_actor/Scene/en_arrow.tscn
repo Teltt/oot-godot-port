@@ -23,11 +23,11 @@ mesh = SubResource("CylinderMesh_fvgq8")
 [node name="Igrab" parent="." index="3" node_paths=PackedStringArray("actor") instance=ExtResource("4_crj3y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.838506, 0, 0)
 actor = NodePath("..")
-my_flags = 2
+my_flags = 1
 
 [node name="Ihit" parent="." index="4" node_paths=PackedStringArray("actor") instance=ExtResource("5_b74we")]
 actor = NodePath("..")
-my_flags = 8
+my_flags = 2
 
 [connection signal="carry" from="." to="Igrab" method="grab"]
 [connection signal="process_carried" from="." to="Igrab" method="process_grab"]

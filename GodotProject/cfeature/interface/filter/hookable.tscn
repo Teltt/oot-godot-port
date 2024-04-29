@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cd2jgnc6tkvos"]
+
+[ext_resource type="Script" path="res://cfeature/interface/filter/IFilterMatch.gd" id="1_nfo23"]
+
+[node name="HookShotable" type="Node"]
+script = ExtResource("1_nfo23")
+filter = &"Hook"

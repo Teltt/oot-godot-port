@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmbq3u68rsdws"]
+
+[ext_resource type="Script" path="res://cfeature/interface/Switch/ISwitch.gd" id="1_gy7ek"]
+
+[node name="Switch" type="Node"]
+script = ExtResource("1_gy7ek")

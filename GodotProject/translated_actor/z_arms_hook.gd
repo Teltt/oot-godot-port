@@ -15,11 +15,13 @@ func _ready() -> void:
 	state = wait
 	unk_1E8 = world.origin;
 	pass
+signal process_grab()
 func _physics_process(_delta: float) -> void:
 	player = get_tree().get_first_node_in_group("player");
 	state.call(_delta);
 	self.unk_1F4 = self.unk_1E8;
 func _process(_delta: float) -> void:
+	process_grab.emit()
 	super(_delta)
 func _exit_tree() -> void:
 	if is_queued_for_deletion():
@@ -56,16 +58,14 @@ func shoot(_delta):
 
 		grabbed = null if not $Igrab.grabbed else $Igrab.grabbed.actor;
 		if (grabbed != null) :
-			if ((grabbed.is_processing()) or !CHECK_FLAG_ALL(grabbed.flags, ACTOR_FLAG_13)) :
-				grabbed = null;
-				self.grabbed = null;
-			elif (child != null):
+			if (child != null):
 				curGrabbedDist = world.origin.distance_to(grabbed.world.origin);
 				grabbedDist =sqrt(SQ(self.grabbedDistDiff.x) + SQ(self.grabbedDistDiff.y) + SQ(self.grabbedDistDiff.z));
 				world.origin=grabbed.world.origin- self.grabbedDistDiff;
 				if ((curGrabbedDist - grabbedDist) > 50.0):
 					release.emit();
 					grabbed = null;
+			state = retract
 				
 		elif grabbedsurface:
 			var newplayerPos=player.world.origin.move_toward(world.origin,_delta*2.0)
@@ -95,6 +95,7 @@ func shoot(_delta):
 								 #(BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN))):
 			#self.timer = 0;
 func retract(_delta):
+	
 	speed = -20
 	rotation.y = (world.origin-player.world.origin).normalized().angle_to(Vector3.LEFT)+PI
 	MoveXZGravity(_delta);
@@ -103,6 +104,7 @@ func retract(_delta):
 		my_velocity = Vector3.ZERO
 		state = wait
 func wait(_delta):
+	release.emit()
 	if (parent == null):
 		#get correct timer length for hookshot or longshot
 		# 13 for hookshot length
@@ -118,20 +120,20 @@ func _on_ihit_hit(_hitter: Variant, hitspot: Variant) -> void:
 		return
 	if (self.timer > 0) : #and (self.collider.elem.atHitElem.elemType != ELEMTYPE_UNK4)
 		var touchedActor = hitspot.actor
-
-		if ((touchedActor.update != null) and (touchedActor.flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))):
+		if not $Igrab.holding:
 			grab.emit(touchedActor);
 		
 		if $Igrab.grabbed and $Igrab.grabbed.actor:
 			pass
 		else:
 			for _child in touchedActor.get_children():
-				if _child is HookShotable:
-					grabbedsurface = touchedActor
-					grabbedPos = grabbedPos
-		
-					world.origin= grabbedPos;
-		self.timer = 0;
+				if _child is Filter:
+					if child.filter == "Hook":
+						grabbedsurface = touchedActor
+						grabbedPos = grabbedPos
+						_child.on_match($Ihook)
+						world.origin= grabbedPos;
+						self.timer = 0;
 		#Audio_PlaySfxGeneral(NA_SE_IT_ARROW_STICK_CRE, projectedPos, 4, gSfxDefaultFreqAndVolScale,
 		#					 gSfxDefaultFreqAndVolScale, gSfxDefaultReverb);
 
@@ -141,15 +143,15 @@ func _on_test_hit_surface(surface: Variant, pos: Variant, normal: Variant) -> vo
 		return
 	var intersectPos = pos
 	var polyNormal= normal
-	world.origin= intersectPos;
-	self.timer = 0;
 	var can_hookshot = false
 	for _child in surface.get_children():
-		if _child is HookShotable:
-			can_hookshot = true
-			break
+			if _child is Filter:
+				if _child.filter == "Hook":
+					can_hookshot = true
+					_child.on_match($Ihook)
+					break
 	if can_hookshot:
+		self.timer = 0;
+		world.origin= intersectPos;
 		grabbedPos = (intersectPos)
 		grabbedsurface = surface
-	else:
-		pass

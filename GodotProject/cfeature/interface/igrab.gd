@@ -5,10 +5,18 @@ var holding = false
 var grabbed:GRABABLE:
 	set(value):
 		if grabbed != null:
-			grabbed.held = false
+			if grabbed != value:
+				grabbed.on_release()
+				grabbed.actor.global_transform = actor.world
+				grabbed.actor.world = grabbed.actor.global_transform
+				grabbed.actor.set_physics_process(true)
+				grabbed.released.emit(self)
 		if value != null:
-			value.held = true
 			holding = true
+			if value != grabbed:
+				value.on_grab(self)
+				value.actor.set_physics_process(false)
+				value.grabbed.emit(self)
 		else:
 			holding = false
 		grabbed = value
@@ -25,3 +33,5 @@ func release():
 func process_grab():
 	if holding:
 		grabbed.actor.global_transform = global_transform*grabbed.transform
+		grabbed.actor.world = grabbed.actor.global_transform
+

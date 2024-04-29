@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://yq4hskq4w4ji"]
+
+[ext_resource type="Script" path="res://cfeature/interface/Switch/ISwitchAnimate.gd" id="1_ws0di"]
+
+[node name="ISwitchAnimate" type="AnimationPlayer"]
+script = ExtResource("1_ws0di")

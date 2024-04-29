@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dimkq55oavxmo"]
-
-[ext_resource type="Script" path="res://cfeature/interface/actor_collision_flags.gd" id="1_o6ycg"]
-
-[node name="ActorCollisionFlags" type="Node3D"]
-script = ExtResource("1_o6ycg")

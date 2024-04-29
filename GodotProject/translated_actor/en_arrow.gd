@@ -44,8 +44,9 @@ func _ready():
 func _exit_tree() -> void:
 	if is_queued_for_deletion():
 		if hit_actor != null and hit_actor.is_processing():
+			hit_actor = null
+			
 			release.emit()
-			hit_actor.flags &= ~ACTOR_FLAG_15
 
 
 func shoot(_delta):
@@ -105,12 +106,14 @@ func fly(_delta):
 		if not test.shape:
 			test.shape = SphereShape3D.new()
 			test.shape.radius = 0.01
+		test.global_position = prevPos.origin
 		test.target_position =-(prevPos.origin-world.origin)
-		test._force_shapecast_update()
+		prevPos = world
 		if test.is_colliding():
 			#func_8002F9EC(wall_poly, bg_id, hit_point)
-			#pos_copy = world.origin
-			world.origin = test.get_collision_point(0)
+			#pos_copy = world.origin'
+			if not hit_actor:
+				world.origin = test.get_collision_point(0)
 		if params <= ARROW_0E:
 			rotation.x = atan2(speed, -my_velocity.y)
 	if hit_actor != null:
@@ -125,7 +128,7 @@ func func_809B4640(_delta):
    # SkelAnime_Update(&this->skelAnime);
 	MoveXZGravity(_delta);
 	timer -=1
-	if (timer == 0):
+	if (timer <= 0):
 		queue_free();
 func func_809B3CEC():
 	state = (func_809B4640)
@@ -139,18 +142,24 @@ signal carry(actor)
 signal release
 @export var carry_distance:float = 10
 var carry_origin:Vector3
+var carried = 0
 func EnArrow_CarryActor():
 	
-	if not $Igrab.holding:
-		carry_origin = global_position
+	if not $Igrab.holding and carried== 0:
+		carried = 2
+		carry_origin = world.origin
 		carry.emit(hit_actor)
 signal process_carried
+func _process(_delta: float) -> void:
+	super(_delta)
 func _physics_process(_delta: float) -> void:
 	process_carried.emit()
-	if carry_origin.distance_to(global_position) > carry_distance:
-		release.emit()
 	if is_cs_nut or (params >= ARROW_NORMAL_LIT):# and player.unk_A73 != 0):# or not Player_InBlockingCsMode(play, player):
 		state.call(_delta)
+	carried = maxi(carried,0)
+	if carry_origin.distance_to(world.origin) >= carry_distance:
+		hit_actor = null
+		release.emit()
 	if params >= ARROW_FIRE and params <= ARROW_0E:
 		#elemental_actor_ids = [ACTOR_ARROW_FIRE, ACTOR_ARROW_ICE, ACTOR_ARROW_LIGHT, ACTOR_ARROW_FIRE, ACTOR_ARROW_FIRE, ACTOR_ARROW_FIRE]
 		if child == null:

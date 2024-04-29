@@ -13,6 +13,7 @@ func _physics_process(_delta: float) -> void:
 			hit_actor.emit(parent,get_collision_point(0),get_collision_normal(0))
 		elif collider is Actor:
 			hit_actor.emit(collider,get_collision_point(0),get_collision_normal(0))
+			hit_surface.emit(collider,get_collision_point(0),get_collision_normal(0))
 		else:
 			hit_surface.emit(collider,get_collision_point(0),get_collision_normal(0))
 func _force_shapecast_update():
@@ -24,6 +25,7 @@ func _force_shapecast_update():
 			hit_actor.emit(parent,get_collision_point(0),get_collision_normal(0))
 		elif collider is Actor:
 			hit_actor.emit(collider,get_collision_point(0),get_collision_normal(0))
+			hit_surface.emit(collider,get_collision_point(0),get_collision_normal(0))
 		else:
 			hit_surface.emit(collider,get_collision_point(0),get_collision_normal(0))
 

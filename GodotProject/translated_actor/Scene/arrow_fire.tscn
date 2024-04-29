@@ -11,6 +11,3 @@ script = ExtResource("2_5pirm")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
 transform = Transform3D(1.185, 0, 0, 0, 1.185, 0, 0, 0, 1.185, 0, 0, 0)
 mesh = SubResource("CylinderMesh_o7eqh")
-
-[node name="ActorCollisionFlags" parent="." index="2" node_paths=PackedStringArray("actor")]
-actor = NodePath("..")

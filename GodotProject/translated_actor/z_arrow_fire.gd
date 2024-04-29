@@ -117,13 +117,13 @@ func fly(_delta):
 	if distanceScaled < 1.0:
 		unk_158 = 1.0
 	func_80865ECC(world.origin, 0.05)
-
-	if arrow.hitFlags & 1:
-		#Actor_PlaySfx(NA_SE_IT_EXPLOSION_FRAME)
-		state =(hit)
-		timer = 32
-		alpha = 255
-	elif arrow.timer < 34:
+#
+	#if arrow.hitFlags & 1:
+		##Actor_PlaySfx(NA_SE_IT_EXPLOSION_FRAME)
+		#state =(hit)
+		#timer = 32
+		#alpha = 255
+	if arrow.timer < 34:
 		if alpha < 35:
 			queue_free()
 		else:
