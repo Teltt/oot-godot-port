@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4jyqouv5gwlb"]
+
+[ext_resource type="Script" path="res://cfeature/interface/IZTarget.gd" id="1_fvyii"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o6q50"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6331a"]
+top_radius = 0.25
+bottom_radius = 0.0
+height = 0.486
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s8t6o"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 1)
+
+[node name="IZtarget" type="Node3D"]
+script = ExtResource("1_fvyii")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72742, 0)
+visible = false
+radius = 0.035
+height = 0.789
+material = SubResource("StandardMaterial3D_o6q50")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.391634, 0)
+mesh = SubResource("CylinderMesh_6331a")
+surface_material_override/0 = SubResource("StandardMaterial3D_s8t6o")

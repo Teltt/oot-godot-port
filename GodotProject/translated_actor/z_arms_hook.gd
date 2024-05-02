@@ -8,7 +8,9 @@ var unk_1E8:Vector3 ;
 var unk_1F4:Vector3 ;
 var grabbedPos:Vector3;
 var grabbedsurface
-var timer:int;
+var timer:int:
+	set(value):
+		timer= value*2
 signal grab(actor)
 signal release
 func _ready() -> void:

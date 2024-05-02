@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bbey3my1wgvv1"]
+[gd_scene load_steps=14 format=3 uid="uid://bbey3my1wgvv1"]
 
 [ext_resource type="Script" path="res://translated_actor/bg_bombwall.gd" id="1_xnu17"]
 [ext_resource type="PackedScene" uid="uid://d1vmrwpq0a5yq" path="res://cfeature/interface/ihitable.tscn" id="3_f3fm2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bmbq3u68rsdws" path="res://cfeature/interface/Switch/Switch.tscn" id="5_smvwn"]
 [ext_resource type="Script" path="res://cfeature/interface/audio.gd" id="5_wneji"]
 [ext_resource type="Resource" uid="uid://8uqj6nduupkl" path="res://resource/audio/discover_sfx.tres" id="6_dof33"]
+[ext_resource type="PackedScene" uid="uid://c4jyqouv5gwlb" path="res://cfeature/interface/IZtarget.tscn" id="7_aa7il"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_x8vdi"]
 
@@ -48,6 +49,9 @@ save_data_flag = &"bomb_wall1"
 [node name="discover_sfx" type="AudioStreamPlayer3D" parent="."]
 script = ExtResource("5_wneji")
 audio_shared = ExtResource("6_dof33")
+
+[node name="IZtarget" parent="." instance=ExtResource("7_aa7il")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.712017, 0)
 
 [connection signal="hit" from="Ihitable" to="Bombable" method="on_hit"]
 [connection signal="matched" from="Bombable" to="." method="set_broken"]

@@ -7,26 +7,28 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if is_colliding():
-		var collider = get_collider(0)
-		var parent = collider.get_parent() 
-		if  parent is Actor:
-			hit_actor.emit(parent,get_collision_point(0),get_collision_normal(0))
-		elif collider is Actor:
-			hit_actor.emit(collider,get_collision_point(0),get_collision_normal(0))
-			hit_surface.emit(collider,get_collision_point(0),get_collision_normal(0))
-		else:
-			hit_surface.emit(collider,get_collision_point(0),get_collision_normal(0))
+		for c in get_collision_count():
+			var collider = get_collider(c)
+			var parent = collider.get_parent() 
+			if  parent is Actor:
+				hit_actor.emit(parent,get_collision_point(c),get_collision_normal(c))
+			elif collider is Actor:
+				hit_actor.emit(collider,get_collision_point(c),get_collision_normal(c))
+				hit_surface.emit(collider,get_collision_point(c),get_collision_normal(c))
+			else:
+				hit_surface.emit(collider,get_collision_point(c),get_collision_normal(c))
 func _force_shapecast_update():
 	force_shapecast_update()
 	if is_colliding():
-		var collider = get_collider(0)
-		var parent = collider.get_parent() 
-		if  parent is Actor:
-			hit_actor.emit(parent,get_collision_point(0),get_collision_normal(0))
-		elif collider is Actor:
-			hit_actor.emit(collider,get_collision_point(0),get_collision_normal(0))
-			hit_surface.emit(collider,get_collision_point(0),get_collision_normal(0))
-		else:
-			hit_surface.emit(collider,get_collision_point(0),get_collision_normal(0))
+		for c in get_collision_count():
+			var collider = get_collider(c)
+			var parent = collider.get_parent() 
+			if  parent is Actor:
+				hit_actor.emit(parent,get_collision_point(c),get_collision_normal(c))
+			elif collider is Actor:
+				hit_actor.emit(collider,get_collision_point(c),get_collision_normal(c))
+				hit_surface.emit(collider,get_collision_point(c),get_collision_normal(c))
+			else:
+				hit_surface.emit(collider,get_collision_point(c),get_collision_normal(c))
 
 	

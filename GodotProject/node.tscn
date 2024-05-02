@@ -1,0 +1,238 @@
+[gd_scene load_steps=21 format=3 uid="uid://b4oetvdo0nfyl"]
+
+[ext_resource type="Script" path="res://cfeature/stay_within_distance.gd" id="1_afwos"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="1_e1dbq"]
+[ext_resource type="PackedScene" uid="uid://brnmf5pcdihdx" path="res://translated_actor/Scene/player.tscn" id="1_x4rcj"]
+[ext_resource type="PackedScene" uid="uid://bbey3my1wgvv1" path="res://translated_actor/Scene/bg_bomb_wall.tscn" id="1_xu1m7"]
+[ext_resource type="Script" path="res://cfeature/camera_rig.gd" id="2_drn2k"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="2_hsw27"]
+[ext_resource type="PackedScene" uid="uid://c4jyqouv5gwlb" path="res://cfeature/interface/IZtarget.tscn" id="3_dmxkf"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="3_dusin"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_f2rkr"]
+[ext_resource type="Script" path="res://cfeature/player_camera.gd" id="6_fetjj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cvqen"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_32eoh"]
+sky_material = SubResource("ProceduralSkyMaterial_cvqen")
+
+[sub_resource type="Environment" id="Environment_gfk22"]
+background_mode = 2
+sky = SubResource("Sky_32eoh")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_j4v6i"]
+radius = 0.621
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ykfm2"]
+radius = 0.015
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uvdps"]
+radius = 0.08
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qn8lj"]
+radius = 0.24
+
+[sub_resource type="Resource" id="Resource_tum0q"]
+script = ExtResource("2_hsw27")
+duration = 1.0
+transition = 0
+ease = 2
+
+[sub_resource type="Resource" id="Resource_juwtv"]
+script = ExtResource("3_dusin")
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+fov = 75.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_t4boq"]
+radius = 0.625
+
+[node name="Node" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gfk22")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Node3D" type="Node3D" parent="." groups=["world"]]
+
+[node name="Actor2" parent="Node3D" instance=ExtResource("1_xu1m7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.03852, 3.70845, 3.94353)
+
+[node name="Actor3" parent="Node3D" instance=ExtResource("1_xu1m7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.03852, 1.69407, 0.830371)
+
+[node name="Actor4" parent="Node3D" instance=ExtResource("1_xu1m7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.03852, 1.20829, 7.29155)
+
+[node name="Actor5" parent="Node3D" instance=ExtResource("1_xu1m7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.32331, 1.20829, 4.98674)
+
+[node name="Actor" parent="Node3D" instance=ExtResource("1_x4rcj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.908081, -7.48889)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0176277, -0.601181, 1.75756)
+use_collision = true
+size = Vector3(31.6427, 0.925, 35.1616)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.49025, 5.41304, 1.51745)
+use_collision = true
+size = Vector3(14.6463, 1.03779, 34.6814)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.71856, 1.72694, -0.157273)
+use_collision = true
+radius = 1.86445
+height = 8.3709
+
+[node name="IZtarget" parent="Node3D/CSGCylinder3D" instance=ExtResource("3_dmxkf")]
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0137, 1.72694, -0.155892)
+use_collision = true
+radius = 0.401072
+height = 8.3709
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.94923, 1.72694, -2.53558)
+use_collision = true
+radius = 0.0539661
+height = 8.3709
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.14176, 1.72694, 3.08701)
+use_collision = true
+radius = 0.401072
+height = 8.3709
+
+[node name="CSGCylinder3D5" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.69947, 1.72694, -4.6264)
+use_collision = true
+radius = 0.401072
+height = 8.3709
+
+[node name="CSGCylinder3D6" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.04176, 1.72694, 1.92567)
+use_collision = true
+radius = 0.401072
+height = 8.3709
+
+[node name="CSGCylinder3D7" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.71525, 1.72694, 2.98566)
+use_collision = true
+radius = 1.05953
+height = 8.3709
+
+[node name="CSGCylinder3D8" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.26005, 1.72694, -3.24113)
+use_collision = true
+radius = 0.401072
+height = 8.3709
+
+[node name="CSGCylinder3D9" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.59873, 1.72694, -2.24662)
+use_collision = true
+radius = 0.401072
+height = 8.3709
+
+[node name="CameraRig" type="Node3D" parent="Node3D" groups=["camerarig"]]
+script = ExtResource("2_drn2k")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Node3D/CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36937, 0)
+update_position = false
+update_rotation = false
+update_scale = false
+
+[node name="Outer" type="Node3D" parent="Node3D/CameraRig/RemoteTransform3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.46902, 0.424561)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Node3D/CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3771, -7.91345)
+top_level = true
+shape = SubResource("SphereShape3D_j4v6i")
+spring_length = 3.175
+
+[node name="Camera" type="Node3D" parent="Node3D/CameraRig/SpringArm3D" node_paths=PackedStringArray("remote", "outer", "cam")]
+transform = Transform3D(0.625, 1.77636e-15, -5.32907e-15, -3.55271e-15, 0.625, 2.98023e-08, -3.55271e-15, -2.98023e-08, 0.625, 0, 0, 0)
+script = ExtResource("6_fetjj")
+remote = NodePath("../../RemoteTransform3D")
+outer = NodePath("../../RemoteTransform3D/Outer")
+cam = NodePath("../../Node3D")
+
+[node name="RayCast3D5" type="ShapeCast3D" parent="Node3D/CameraRig/SpringArm3D/Camera"]
+transform = Transform3D(0.295, -2.34201e-15, 3.51302e-15, 2.34201e-15, 0.295, -1.96462e-08, -3.51302e-15, 1.96462e-08, 0.295, 2.92099e-15, -2.38419e-07, 0.342578)
+shape = SubResource("SphereShape3D_ykfm2")
+target_position = Vector3(0, 0, 0.5)
+
+[node name="RayCast3D" type="ShapeCast3D" parent="Node3D/CameraRig/SpringArm3D/Camera/RayCast3D5"]
+transform = Transform3D(1.83, -1.12698e-09, -1.01632e-09, 1.14607e-09, 1.82967, 0.0347163, 9.94753e-10, -0.0347163, 1.82967, 0, 0, 0)
+shape = SubResource("SphereShape3D_uvdps")
+target_position = Vector3(1, 0, -0.27)
+
+[node name="RayCast3D2" type="ShapeCast3D" parent="Node3D/CameraRig/SpringArm3D/Camera/RayCast3D5"]
+transform = Transform3D(1.83, -1.12698e-09, -1.01632e-09, 1.14607e-09, 1.82967, 0.0347163, 9.94753e-10, -0.0347163, 1.82967, 0, 0, 0)
+shape = SubResource("SphereShape3D_uvdps")
+target_position = Vector3(-1, 0, -0.27)
+
+[node name="RayCast3D3" type="ShapeCast3D" parent="Node3D/CameraRig/SpringArm3D/Camera/RayCast3D5"]
+transform = Transform3D(0.0782668, -0.996514, 0.0288814, 0.904174, 0.0587517, -0.423105, 0.419934, 0.0592289, 0.90562, 0, 0, 0)
+shape = SubResource("SphereShape3D_uvdps")
+target_position = Vector3(1, 0, -1.23)
+
+[node name="RayCast3D4" type="ShapeCast3D" parent="Node3D/CameraRig/SpringArm3D/Camera/RayCast3D5"]
+transform = Transform3D(0.00638802, -0.999461, 0.032212, 0.936477, -0.00531702, -0.350689, 0.350671, 0.032406, 0.935938, 0, 0, 0)
+shape = SubResource("SphereShape3D_uvdps")
+target_position = Vector3(-1, 0, -1.23)
+
+[node name="Node3D" type="CharacterBody3D" parent="Node3D/CameraRig" node_paths=PackedStringArray("following", "outer_following", "player_cam", "cam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8009, 1.08418)
+top_level = true
+collision_layer = 0
+script = ExtResource("1_afwos")
+following = NodePath("../SpringArm3D/Camera/RayCast3D5")
+outer_following = NodePath("../RemoteTransform3D/Outer")
+player_cam = NodePath("../SpringArm3D/Camera")
+cam = NodePath("PhantomCamera3D2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/CameraRig/Node3D"]
+shape = SubResource("SphereShape3D_qn8lj")
+
+[node name="PhantomCamera3D2" type="Node3D" parent="Node3D/CameraRig/Node3D" node_paths=PackedStringArray("follow_target", "look_at_target", "look_at_targets")]
+transform = Transform3D(0.998801, 0, 0, 0, 0.948864, 0.315202, 0, -0.315536, 0.947859, 0, 0, 0.213501)
+script = ExtResource("1_e1dbq")
+priority = 1
+follow_target = NodePath("../../../Actor")
+look_at_mode = 3
+look_at_target = NodePath("../../../Actor")
+look_at_targets = [NodePath("../../RemoteTransform3D")]
+tween_resource = SubResource("Resource_tum0q")
+camera_3d_resource = SubResource("Resource_juwtv")
+follow_offset = Vector3(0, 0.7, 1.745)
+follow_damping_value = Vector3(0.025, 0.1, 0.025)
+follow_distance = 0.455
+dead_zone_width = 0.565
+dead_zone_height = 0.344
+spring_length = 0.455
+look_at_damping_value = 0.26
+
+[node name="RayCast3D" type="ShapeCast3D" parent="Node3D/CameraRig/Node3D"]
+shape = SubResource("SphereShape3D_t4boq")
+max_results = 1
+
+[node name="Camera3D" type="Camera3D" parent="." groups=["camera"]]
+transform = Transform3D(0.998801, 0, 0, 0, 0.948864, 0.315202, 0, -0.315536, 0.947859, 0, 1.8009, 1.29768)
+
+[node name="PhantomCameraHost" type="Node" parent="Camera3D"]
+script = ExtResource("5_f2rkr")
+
+[connection signal="slow" from="Node3D/Actor" to="Node3D/Actor/Ijump" method="slow"]

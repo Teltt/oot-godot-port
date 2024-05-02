@@ -14,6 +14,6 @@ func _set(property: StringName, value: Variant) -> bool:
 	set_meta(property,value)
 	return true
 func _get(property: StringName) -> Variant:
-	if get_meta(property) == "null":
+	if get_meta(property) is String and get_meta(property) == "null":
 		return null
 	return get_meta(property)
