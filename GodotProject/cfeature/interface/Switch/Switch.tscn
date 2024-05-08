@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmbq3u68rsdws"]
+[gd_scene load_steps=3 format=3 uid="uid://bmbq3u68rsdws"]
 
 [ext_resource type="Script" path="res://cfeature/interface/Switch/ISwitch.gd" id="1_gy7ek"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_st3nu"]
+properties/0/path = NodePath(".:v")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
 [node name="Switch" type="Node"]
 script = ExtResource("1_gy7ek")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_st3nu")

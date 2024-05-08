@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1pjueafgi2m5"]
+
+[ext_resource type="Script" path="res://cfeature/interface/IDamagable.gd" id="1_2idun"]
+[ext_resource type="Script" path="res://cfeature/interface/I2DFollows3D.gd" id="2_3u6l4"]
+
+[node name="IDamageable" type="Node3D"]
+script = ExtResource("1_2idun")
+
+[node name="Label" type="Label" parent="." node_paths=PackedStringArray("parent")]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "text"
+script = ExtResource("2_3u6l4")
+parent = NodePath("..")
+
+[node name="Panel" type="Panel" parent="Label"]
+z_index = -1
+layout_mode = 0
+offset_left = -9.0
+offset_right = 39.0
+offset_bottom = 26.0

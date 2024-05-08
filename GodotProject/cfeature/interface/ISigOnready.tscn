@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dp2ra28mbvnuu"]
+
+[ext_resource type="Script" path="res://Assets/Interfaces/i_sig_onready.gd" id="1_xdhri"]
+
+[node name="ISigOnready" type="Node"]
+script = ExtResource("1_xdhri")

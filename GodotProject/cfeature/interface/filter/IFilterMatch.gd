@@ -8,7 +8,7 @@ func on_hit(hitter,hitspot):
 	var is_matchable = false
 	for _child in hitter.actor.get_children():
 		if _child is Filter:
-			if _child.filter == filter:
+			if _child.filter == filter and _child.active:
 				is_matchable = true
 				_child.matched.emit(self,_child)
 				matched_specific.emit(self,_child)
@@ -18,7 +18,7 @@ func on_hitspot(hitter,hitspot):
 	var is_matchable = false
 	for _child in hitspot.actor.get_children():
 		if _child is Filter:
-			if _child.filter == filter:
+			if _child.filter == filter and _child.active:
 				is_matchable = true
 				_child.matched.emit(self,_child)
 				matched_specific.emit(self,_child)
@@ -30,7 +30,7 @@ func second_actor (actor2,tru_callable:Callable=nullfunc,fals_callable:Callable=
 	var is_matchable = false
 	for _child in actor2.get_children():
 		if _child is Filter:
-			if _child.filter == filter:
+			if _child.filter == filter and _child.active:
 				is_matchable = true
 				_child.matched.emit(self,_child)
 				matched_specific.emit(self,_child)

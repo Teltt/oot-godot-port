@@ -1,6 +1,5 @@
-@tool
 extends Actor
-class_name PLayer
+class_name Player
 @onready var unk_3C8 = global_position
 var heldActor:Actor
 var upper_state:Callable
@@ -40,11 +39,14 @@ func _ready() -> void:
 	upper_state = upper_swing
 var was_on_floor
 var movement_angle
+func _process(delta: float) -> void:
+	pass
 func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 	process_ztarget()
-			
+	camera= get_tree().get_first_node_in_group("camera")
+	
 	joystick_dir = Input.get_vector("ui_left","ui_right","ui_down","ui_up")
 	movement_angle = Vector2(joystick_dir.x,joystick_dir.y).angle()
 	
@@ -79,7 +81,6 @@ func process_ztarget():
 			return
 	target_frames_passed = 0
 func get_limit(_case="default"):
-	var vel = Vector2(my_velocity.x,my_velocity.z)
 	return pow(3.0,1.0-jump_dir_get().y)*1.7
 func jump_dir_get(_case="default"):
 	var vel = Vector2(my_velocity.x,my_velocity.z)
@@ -92,8 +93,6 @@ func set_vel(vel):
 	my_velocity = vel
 func get_vel(_case):
 	return my_velocity
-func _process(_delta: float) -> void:
-	pass
 #region New Code Region
 func body_idle(_delta):
 	pass
@@ -111,14 +110,12 @@ func lower_move(_delta):
 	if self["is_on_floor"].call() and Input.is_action_just_pressed("ui_accept"):
 		jump.emit()
 		lower_state = lower_jump
-		self["move_and_slide"].call()
+		self.call("move_and_slide")
 		return
 	if not joystick_dir.length() <= 0.05:
-		speed= clampf(speed+0.5,0,6)
+		speed= deltastep(_delta,speed,6.0,1.5)
 	else:
 		speed = 0
-		if speed <= 0.5:
-			speed = 0
 	if self["is_on_floor"].call():
 		if joystick_dir.length() >0.15:
 			$Lower.global_rotation.y = lerp_angle($Lower.global_rotation.y,movement_angle+PI+camera.global_rotation.y,0.25)
@@ -133,7 +130,7 @@ func lower_move(_delta):
 				jump.emit()
 				lower_state = lower_jump
 				
-				self["move_and_slide"].call()
+				self.call("move_and_slide")
 				return
 		
 		else:
@@ -149,12 +146,12 @@ func lower_move(_delta):
 				lower_state = lower_jump
 				touched_floor.emit(false)
 				jump.emit()
-				self["move_and_slide"].call()
+				self.call("move_and_slide")
 				return
 	
-	my_velocity.y = clamp(my_velocity.y-1.0*jump_dir_get().y,-120,999)
+	my_velocity.y = deltastep(_delta,my_velocity.y,-9.8,-fall_dir_get("").y)
 		
-	self["move_and_slide"].call()
+	self.call("move_and_slide")
 
 func lower_jump(_delta):
 	if not joystick_dir.length() <= 0.05:
@@ -224,11 +221,14 @@ var swings = {
 func upper_swing(_delta):
 	var playback:AnimationNodeStateMachinePlayback= upper_anim_tree["parameters/Hands/SwingState/playback"]
 	
+	var cur = playback.get_current_node()
+	if cur == "End" or cur == "Start":
+		$Hand/Ihit.my_flags = 0
+	else:
+		$Hand/Ihit.my_flags = 2
 	if Input.is_action_just_pressed("z"):
-		var cur = playback.get_current_node()
 		if cur != "Finish" and cur:
 			playback.travel(swings[cur])
-	
 		
 
 	pass

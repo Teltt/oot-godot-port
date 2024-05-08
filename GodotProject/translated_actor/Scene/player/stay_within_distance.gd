@@ -4,11 +4,20 @@ extends CharacterBody3D
 @export var outer_following:Node3D
 @export var player_cam:Node3D
 @export var cam:PhantomCamera3D
-func _physics_process(delta: float) -> void:
+func _ready() -> void:
+	
+	var player = player_cam.player
+	if player.is_multiplayer_authority():
+		cam.priority = 1
+	else:
+		cam.priority = 0
+func _process(_delta: float) -> void:
 	var fllow = player_cam.follow
 	if fllow == null:
 		fllow = player_cam.player
 	var player = player_cam.player
+	if player == null:
+		return
 	var is_colliding = raycast.is_colliding()
 	var col_point = following.global_position
 	var col_normal :Vector3= Vector3.ZERO

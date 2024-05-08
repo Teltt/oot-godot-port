@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpte7d7fwuog1"]
+
+[ext_resource type="Script" path="res://Assets/Interfaces/IVanishOnSig.gd" id="1_fit10"]
+
+[node name="IVanishOnSig" type="Node"]
+script = ExtResource("1_fit10")
+called = null
+keys = Array[String](["despawn_func"])
+translations = {
+"despawn_func": "parent:multiplayer_spawn:free_me"
+}

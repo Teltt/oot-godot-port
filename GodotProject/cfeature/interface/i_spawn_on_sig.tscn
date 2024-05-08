@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs5qay7fv4eux"]
+
+[ext_resource type="Script" path="res://Assets/Interfaces/ISpawnOnSig.gd" id="1_p750b"]
+
+[node name="ISpawnOnSig" type="Node2D"]
+script = ExtResource("1_p750b")

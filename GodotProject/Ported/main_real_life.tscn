@@ -1,0 +1,64 @@
+[gd_scene load_steps=10 format=3 uid="uid://dgbw63maye64w"]
+
+[ext_resource type="Script" path="res://Game_Data/Ported/main_real_life.gd" id="1_hmi25"]
+[ext_resource type="PackedScene" uid="uid://b2id47af7s0m6" path="res://Game_Data/Ported/loadfade.tscn" id="2_nbfyo"]
+[ext_resource type="Script" path="res://Game_Data/UI_Scene/Magic_Number.gd" id="2_t15q6"]
+[ext_resource type="PackedScene" uid="uid://b03aadav3mbkg" path="res://Game_Data/Ported/msg_box.tscn" id="3_ogmgh"]
+[ext_resource type="PackedScene" uid="uid://cfljp54swbrfu" path="res://Game_Data/OBJ/Player/Player.tscn" id="5_qjojg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_n8o5l"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_nrgmg"]
+sky_material = SubResource("ProceduralSkyMaterial_n8o5l")
+
+[sub_resource type="Environment" id="Environment_r3ng6"]
+background_mode = 2
+sky = SubResource("Sky_nrgmg")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7nmav"]
+size = Vector2(1102, 590)
+
+[node name="Main" type="Node2D" groups=["main"]]
+process_mode = 3
+script = ExtResource("1_hmi25")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r3ng6")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera" type="CharacterBody2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+motion_mode = 1
+
+[node name="Camera2D" type="Camera2D" parent="Camera"]
+position = Vector2(576, 324)
+
+[node name="CanvasLayer" type="Node2D" parent="Camera/Camera2D"]
+position = Vector2(-576, -324)
+script = ExtResource("2_t15q6")
+
+[node name="loadfade" parent="Camera/Camera2D/CanvasLayer" instance=ExtResource("2_nbfyo")]
+
+[node name="msg_box" parent="Camera/Camera2D/CanvasLayer" instance=ExtResource("3_ogmgh")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera"]
+position = Vector2(576, 324)
+shape = SubResource("RectangleShape2D_7nmav")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="CharacterBody2D" parent="Node3D" instance=ExtResource("5_qjojg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.53675e-07, 1.81434, 0.139898)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Node3D"]
+use_collision = true
+radius = 2.25016
+height = 0.755825

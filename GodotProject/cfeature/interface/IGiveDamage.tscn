@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://twl1vpwxwnsr"]
+
+[ext_resource type="Script" path="res://cfeature/interface/IGiveDamage.gd" id="1_armlr"]
+
+[node name="IGiveDamage" type="Node3D"]
+script = ExtResource("1_armlr")

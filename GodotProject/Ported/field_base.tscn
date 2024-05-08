@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6wynmdg46x02"]
+
+[ext_resource type="Script" path="res://Game_Data/Field/field_base.gd" id="1_6tnd6"]
+[ext_resource type="Script" path="res://Game_Data/OBJ/SpawnPositions/SpawnPositionSaver.gd" id="2_wtwkn"]
+
+[node name="field" type="Node2D" groups=["field"]]
+process_mode = 1
+y_sort_enabled = true
+script = ExtResource("1_6tnd6")
+
+[node name="Default_MC_Pos" type="Marker2D" parent="."]
+position = Vector2(496, 448)
+script = ExtResource("2_wtwkn")
+
+[node name="Graphics" type="CanvasGroup" parent="."]

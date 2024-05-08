@@ -1,0 +1,214 @@
+[gd_scene load_steps=11 format=3 uid="uid://b03aadav3mbkg"]
+
+[ext_resource type="Script" path="res://Game_Data/Ported/msg_box.gd" id="1_i0ytw"]
+[ext_resource type="Script" path="res://addons/dialogue_manager/dialogue_label.gd" id="2_t13c0"]
+[ext_resource type="Script" path="res://Game_Data/Ported/MSG_ResponseMenu.gd" id="3_h2gym"]
+[ext_resource type="Script" path="res://Game_Data/Ported/MSG_Response.gd" id="4_pqpjd"]
+
+[sub_resource type="Animation" id="Animation_6x1xy"]
+resource_name = "display_choices"
+length = 0.4079
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Choices:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.285, 0), Vector2(0.28498, 1.05263)]
+}
+
+[sub_resource type="Animation" id="Animation_ffswh"]
+resource_name = "popout"
+length = 0.443
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/Poly:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/Poly:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(104, 538), Vector2(104, 700)]
+}
+
+[sub_resource type="Animation" id="Animation_pcum5"]
+resource_name = "popout_choices"
+length = 0.4349
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Choices:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.28498, 1.05263), Vector2(0.285, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qvakc"]
+resource_name = "popup"
+length = 0.418
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/Poly:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 0.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/Poly:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(104, 700), Vector2(104, 538)]
+}
+
+[sub_resource type="Animation" id="Animation_7ntje"]
+resource_name = "progress"
+length = 0.4565
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8fvjd"]
+_data = {
+"display_choices": SubResource("Animation_6x1xy"),
+"popout": SubResource("Animation_ffswh"),
+"popout_choices": SubResource("Animation_pcum5"),
+"popup": SubResource("Animation_qvakc"),
+"progress": SubResource("Animation_7ntje")
+}
+
+[node name="msg_box" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_i0ytw")
+
+[node name="Choices" type="Polygon2D" parent="."]
+position = Vector2(762, 436)
+scale = Vector2(0.285, 1e-05)
+color = Color(0.537255, 0, 0.2, 0.807843)
+offset = Vector2(-148.755, -589.995)
+polygon = PackedVector2Array(168.433, 590, 168.433, 468.4, 196.505, 453.2, 252.649, 445.6, 926.381, 445.6, 982.525, 453.2, 1010.6, 468.4, 1010.6, 590)
+
+[node name="ResponsesMenu" type="VBoxContainer" parent="Choices" node_paths=PackedStringArray("response_template")]
+unique_name_in_owner = true
+offset_left = 35.0
+offset_top = -143.0
+offset_right = 589.0
+offset_bottom = 23.0
+scale = Vector2(1.495, 0.835)
+size_flags_horizontal = 0
+script = ExtResource("3_h2gym")
+response_template = NodePath("MarginContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="Choices/ResponsesMenu"]
+custom_minimum_size = Vector2(533.55, 38)
+layout_mode = 2
+script = ExtResource("4_pqpjd")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Choices/ResponsesMenu/MarginContainer"]
+z_index = 1
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 30
+text = "How!"
+fit_content = true
+
+[node name="1" type="Polygon2D" parent="Choices/ResponsesMenu/MarginContainer"]
+position = Vector2(131.003, 30.4)
+scale = Vector2(0.667, 1)
+color = Color(0.490196, 0.27451, 0.121569, 1)
+polygon = PackedVector2Array(-112.232, -22.8, 533.104, -22.8, 550.641, -19.95, 561.162, -15.2, 561.162, 7.59991, -140.291, 7.59991, -140.291, -15.2, -129.769, -19.95)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Choices/ResponsesMenu"]
+custom_minimum_size = Vector2(547.305, 40)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Poly" type="Polygon2D" parent="Control"]
+position = Vector2(104, 700)
+scale = Vector2(1, 1e-05)
+color = Color(1, 1, 0, 0.635294)
+offset = Vector2(0, -320)
+polygon = PackedVector2Array(24, 222, 16, 238, 16, 358, 24, 374, 40, 382, 904, 382, 920, 374, 928, 358, 928, 238, 920, 222, 904, 214, 40, 214)
+
+[node name="Polygon2D8" type="Polygon2D" parent="Control/Poly"]
+position = Vector2(-104, -547.234)
+scale = Vector2(1, 1.00478)
+color = Color(0.329412, 0.172549, 0.184314, 0.807843)
+polygon = PackedVector2Array(136, 590.412, 128, 574.488, 128, 470.983, 136, 455.059, 152, 447.097, 1000, 447.097, 1016, 455.059, 1024, 470.983, 1024, 574.488, 1016, 590.412, 1000, 598.374, 152, 598.374)
+
+[node name="Polygon2D9" type="Polygon2D" parent="Control/Poly"]
+position = Vector2(-104, -524.727)
+scale = Vector2(1, 0.954545)
+color = Color(0.435294, 0.25098, 0.266667, 1)
+polygon = PackedVector2Array(184, 413.524, 184, 447.048, 472, 447.048, 472, 413.524, 469, 408.286, 464, 405.143, 192, 405.143, 187, 408.286)
+
+[node name="Name" type="RichTextLabel" parent="Control/Poly"]
+offset_left = 104.0
+offset_top = -142.909
+offset_right = 354.0
+offset_bottom = -62.909
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Progress" type="Node2D" parent="Control/Poly"]
+modulate = Color(1, 0.286275, 0, 1)
+position = Vector2(-88, -514)
+scale = Vector2(1, 0.954545)
+
+[node name="Polygon2D9" type="Polygon2D" parent="Control/Poly/Progress"]
+polygon = PackedVector2Array(968, 552, 960, 600, 1008, 576)
+
+[node name="Message" type="RichTextLabel" parent="Control/Poly"]
+offset_left = 48.0
+offset_top = -98.0
+offset_right = 872.0
+offset_bottom = 54.0
+script = ExtResource("2_t13c0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_8fvjd")
+}
+
+[connection signal="gui_input" from="Control" to="." method="_on_balloon_gui_input"]

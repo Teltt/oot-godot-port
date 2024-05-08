@@ -115,10 +115,13 @@ func _ready() -> void:
 
 func UpdatePos(_delta:float) :
 	var speedRate = _delta * 0.5;
-
-	world.origin.x += (my_velocity.x * speedRate);
-	world.origin.y += (my_velocity.y * speedRate);
-	world.origin.z += (my_velocity.z * speedRate);
+	if has_method("move_and_slide"):
+		self["move_and_slide"].call()
+		world = global_transform
+	else:
+		world.origin.x += (my_velocity.x * speedRate);
+		world.origin.y += (my_velocity.y * speedRate);
+		world.origin.z += (my_velocity.z * speedRate);
 
 func Updatemy_velocityXZGravity(_delta:float) :
 	var forward = world.basis.x
@@ -133,6 +136,11 @@ func Updatemy_velocityXZGravity(_delta:float) :
 func MoveXZGravity(_delta:float) :
 	Updatemy_velocityXZGravity(_delta);
 	UpdatePos(_delta);
+func UpdateVelocityXYZ(_delta):
+	my_velocity = world.basis.z.rotated(Vector3.UP,0)*speed
+func MoveXYZ(_delta):
+	UpdateVelocityXYZ(_delta)
+	UpdatePos(_delta)
 const PHYSICS_FRAMRATE =20.0
 var physics_interpolation = 0.0
 func _process(_delta: float) -> void:
@@ -140,3 +148,24 @@ func _process(_delta: float) -> void:
 	physics_interpolation = min(physics_interpolation,1.0)
 	global_transform = prev_global_transform.interpolate_with(world,physics_interpolation)
 	pass
+
+func pitch_to_point(p1,p2):
+	var xz_dist = Vector2(p1.x,p1.z).distance_to(Vector2(p2.x,p2.z))
+	var y_dist = p1.y -p2.y
+	return Vector2(xz_dist,y_dist).angle()
+func yaw_to_point(p1,p2):
+	return Vector2(p1.x,p1.z).angle_to(Vector2(p2.x,p2.z))
+func dist_to_xz(p1,p2):
+	return Vector2(p1.x,p1.z).distance_to(Vector2(p2.x,p2.z))
+func redo_angle(ang):
+	return remap(ang*1.0,-0x7FFF*1.0,0x7FFF*1.0,-PI,PI)
+
+func rand_centered_float(f):
+	return (randf_range(0,1) - 0.5) * f;
+func deltastep(_delta,from,to,x):
+	var si = sign(to-from)
+	if si <0:
+		return max(from+x*si*_delta*20,to)
+	else:
+		
+		return min(from+x*si*_delta*20,to)

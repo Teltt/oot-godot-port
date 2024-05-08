@@ -1,0 +1,92 @@
+[gd_scene load_steps=16 format=3 uid="uid://bewwokyfsdwam"]
+
+[ext_resource type="Script" path="res://translated_actor/en_firefly.gd" id="1_qhdi6"]
+[ext_resource type="PackedScene" uid="uid://filti68de6lx" path="res://cfeature/interface/filter/fire_filter.tscn" id="2_sdi13"]
+[ext_resource type="PackedScene" uid="uid://bwn2ajx0tkvji" path="res://cfeature/interface/filter/ice_filter.tscn" id="3_870d6"]
+[ext_resource type="PackedScene" uid="uid://b2e7slcutuyrq" path="res://cfeature/interface/ihit.tscn" id="4_2f0ew"]
+[ext_resource type="PackedScene" uid="uid://d1pjueafgi2m5" path="res://cfeature/interface/IDamageable.tscn" id="5_qxkxy"]
+[ext_resource type="PackedScene" uid="uid://twl1vpwxwnsr" path="res://cfeature/interface/IGiveDamage.tscn" id="6_jd7qv"]
+[ext_resource type="PackedScene" uid="uid://d1vmrwpq0a5yq" path="res://cfeature/interface/ihitable.tscn" id="7_bqt5b"]
+[ext_resource type="PackedScene" uid="uid://wokspupcjtas" path="res://cfeature/interface/collisiontest.tscn" id="8_edj38"]
+[ext_resource type="PackedScene" uid="uid://dxrc4w538esic" path="res://cfeature/interface/filter/fire_filter_match.tscn" id="9_mr6xp"]
+[ext_resource type="PackedScene" uid="uid://cyvs8034dedt8" path="res://cfeature/interface/filter/ice_filter_match.tscn" id="10_knylq"]
+[ext_resource type="PackedScene" uid="uid://c4jyqouv5gwlb" path="res://cfeature/interface/IZtarget.tscn" id="11_wo1bg"]
+[ext_resource type="PackedScene" uid="uid://bkgv4tspb4wiu" path="res://cfeature/interface/ObjectSpawn/i_multiplayer_spawn.tscn" id="12_cnrwh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_v7ln7"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_o4c20"]
+radial_segments = 4
+rings = 0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2255j"]
+
+[node name="Actor_Firefly" type="CharacterBody3D" node_paths=PackedStringArray("fire_filter", "ice_filter", "floorcast")]
+collision_layer = 0
+floor_constant_speed = true
+script = ExtResource("1_qhdi6")
+max_altitude = 50.0
+fire_filter = NodePath("FireFilter")
+ice_filter = NodePath("IceFilter")
+floorcast = NodePath("RayCast3D")
+
+[node name="Child" type="Node3D" parent="."]
+
+[node name="FireFilter" parent="." instance=ExtResource("2_sdi13")]
+
+[node name="IceFilter" parent="." instance=ExtResource("3_870d6")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_v7ln7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.437736, 0)
+mesh = SubResource("CapsuleMesh_o4c20")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.151606, -0.988441, 0, 0.988441, 0.151606, 0, 0.234188, 0.666322)
+mesh = SubResource("CapsuleMesh_o4c20")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+
+[node name="Ihit" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("4_2f0ew")]
+actor = NodePath("..")
+my_flags = 2
+
+[node name="IDamageable" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("5_qxkxy")]
+max_health = 20.0
+actor = NodePath("..")
+
+[node name="IGiveDamage" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("6_jd7qv")]
+actor = NodePath("..")
+damage = 1.0
+
+[node name="Ihitable" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("7_bqt5b")]
+actor = NodePath("..")
+my_flags = 2
+
+[node name="Test" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("8_edj38")]
+actor = NodePath("..")
+
+[node name="FireFilterMatch" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("9_mr6xp")]
+actor = NodePath("..")
+
+[node name="IceFilterMatch" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("10_knylq")]
+actor = NodePath("..")
+
+[node name="IZtarget" parent="." instance=ExtResource("11_wo1bg")]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_2255j")
+
+[node name="IMultiplayerSpawn" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("12_cnrwh")]
+parent = NodePath("..")
+
+[connection signal="hit" from="Ihit" to="." method="hit_normal"]
+[connection signal="hit" from="Ihit" to="IGiveDamage" method="give_damage"]
+[connection signal="depleted" from="IDamageable" to="." method="on_depleted"]
+[connection signal="hit_actor" from="Test" to="Ihit" method="from_collision_test"]
+[connection signal="matched_specific" from="FireFilterMatch" to="." method="hit_fire"]
+[connection signal="matched_specific" from="IceFilterMatch" to="." method="hit_ice"]

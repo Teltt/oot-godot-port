@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://begaih8p3erpb"]
+
+[ext_resource type="Script" path="res://cfeature/interface/group/add_to_group.gd" id="1_q36uo"]
+
+[node name="GroupTorch" type="Node3D"]
+script = ExtResource("1_q36uo")
+group_name = &"Torch"

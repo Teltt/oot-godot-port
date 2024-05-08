@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpgx0ybr7ntsf"]
+
+[ext_resource type="Script" path="res://Game_Data/Ported/YSort.gd" id="1_4pfl1"]
+[ext_resource type="Script" path="res://Game_Data/Ported/SubYsort.gd" id="2_pwx7b"]
+
+[node name="YSort" type="Area2D" groups=["ysort"]]
+z_index = 999
+z_as_relative = false
+collision_layer = 32768
+collision_mask = 32768
+input_pickable = false
+script = ExtResource("1_4pfl1")
+height = 1.14
+
+[node name="BBox" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(32, -24, 48, -24, 48, 4.19629e-06, 48, 24, -16, 24, -32, 24, -32, -2.79753e-06, -32, -24, 32, -24)
+default_color = Color(1, 1, 0, 1)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 32768
+collision_mask = 32768
+script = ExtResource("2_pwx7b")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+
+[node name="Shadow" type="Area2D" parent="."]
+collision_layer = 32768
+collision_mask = 32768
+script = ExtResource("2_pwx7b")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Shadow"]

@@ -8,11 +8,14 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	var player = get_tree().get_first_node_in_group("player")
+	if player == null:
+		return
 	camera = get_tree().get_first_node_in_group("camera")
 	list = get_tree().get_nodes_in_group("ZTarget")
 	list = list.filter(func(ele):
 		var is_in_view = camera.is_position_in_frustum( ele.global_position)
-		return is_in_view)
+		
+		return is_in_view and ele.can_target)
 	list.sort_custom(func(a,b):
 		return a.global_position.distance_to(player.global_position) < b.global_position.distance_to(player.global_position))
 	cur_pos = list.find(current_target,0)

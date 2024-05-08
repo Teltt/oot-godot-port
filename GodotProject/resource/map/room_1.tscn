@@ -1,0 +1,312 @@
+[gd_scene load_steps=15 format=3 uid="uid://bfh1f2y45drih"]
+
+[ext_resource type="Script" path="res://cfeature/interface/MultiPlayerRoomInstance.gd" id="1_87hoc"]
+[ext_resource type="PackedScene" uid="uid://b6nm4j5iikcdr" path="res://cfeature/interface/ObjectSpawn/fireflyspawn.tscn" id="2_dgdfb"]
+[ext_resource type="PackedScene" uid="uid://bbey3my1wgvv1" path="res://translated_actor/Scene/bg_bomb_wall.tscn" id="4_vux1m"]
+[ext_resource type="PackedScene" uid="uid://yq4hskq4w4ji" path="res://cfeature/interface/Switch/ISwitchAnimate.tscn" id="5_8usy2"]
+[ext_resource type="PackedScene" uid="uid://crb7pq8b08pge" path="res://translated_actor/Scene/lever.tscn" id="6_ou1yv"]
+[ext_resource type="PackedScene" uid="uid://bmbq3u68rsdws" path="res://cfeature/interface/Switch/Switch.tscn" id="7_6f7le"]
+[ext_resource type="PackedScene" uid="uid://bkgv4tspb4wiu" path="res://cfeature/interface/ObjectSpawn/i_multiplayer_spawn.tscn" id="8_fasfd"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wb1qy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qdw2q"]
+size = Vector3(13, 1, 13)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hruo3"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+albedo_color = Color(1, 1, 1, 0.615686)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8ke1m"]
+material = SubResource("StandardMaterial3D_hruo3")
+size = Vector3(13, 2, 13)
+
+[sub_resource type="Animation" id="Animation_bc2io"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CSGSphere3D:inner_radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CSGSphere3D2:inner_radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CSGSphere3D3:inner_radius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CSGSphere3D:outer_radius")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CSGSphere3D2:outer_radius")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CSGSphere3D3:outer_radius")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("CSGSphere3D:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("CSGSphere3D2:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("CSGSphere3D3:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6owy8"]
+resource_name = "explode"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CSGSphere3D:inner_radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.5, 13.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CSGSphere3D2:inner_radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.5, 13.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CSGSphere3D3:inner_radius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.5, 13.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CSGSphere3D:outer_radius")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 11.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CSGSphere3D2:outer_radius")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 11.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CSGSphere3D3:outer_radius")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 11.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("CSGSphere3D:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1.4, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0, 0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("CSGSphere3D2:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(1.4, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0, 0, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("CSGSphere3D3:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1.4, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qtv15"]
+_data = {
+"RESET": SubResource("Animation_bc2io"),
+"explode": SubResource("Animation_6owy8")
+}
+
+[node name="Room1" type="Node3D"]
+script = ExtResource("1_87hoc")
+room_path = "res://resource/map/room_1.tscn"
+
+[node name="Fireflyspawn" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("2_dgdfb")]
+parent = NodePath("..")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5033, -12.6387, -3.2522)
+use_collision = true
+size = Vector3(70.6845, 25, 83)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2, 4)
+use_collision = true
+size = Vector3(20, 5, 5)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="CSGBox3D6"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12, 0, -8)
+use_collision = true
+size = Vector3(22, 5, 5)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="CSGBox3D6/CSGBox3D7"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9, -2, 10)
+use_collision = true
+size = Vector3(26, 1, 5)
+
+[node name="Bombwall" parent="." node_paths=PackedStringArray("switch") instance=ExtResource("4_vux1m")]
+transform = Transform3D(0, 0, 1, 1, 0, 0, 0, 1, 0, 16.991, 5.413, -13.142)
+switch = NodePath("../Switch")
+broken_collision = SubResource("ConvexPolygonShape3D_wb1qy")
+full_collision = SubResource("BoxShape3D_qdw2q")
+full_mesh = SubResource("BoxMesh_8ke1m")
+
+[node name="CSGSphere3D" type="CSGTorus3D" parent="Bombwall"]
+
+[node name="CSGSphere3D2" type="CSGTorus3D" parent="Bombwall"]
+
+[node name="CSGSphere3D3" type="CSGTorus3D" parent="Bombwall"]
+
+[node name="ISwitchAnimate" parent="Bombwall" node_paths=PackedStringArray("switch") instance=ExtResource("5_8usy2")]
+libraries = {
+"": SubResource("AnimationLibrary_qtv15")
+}
+switch = NodePath("../../Switch")
+switch_to_animation_name = {
+false: "explode",
+true: "explode"
+}
+
+[node name="Lever" parent="." node_paths=PackedStringArray("switch") instance=ExtResource("6_ou1yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -24)
+switch = NodePath("../Switch")
+
+[node name="Switch" parent="." instance=ExtResource("7_6f7le")]
+save_data_flag = &"bomb_wall1"
+
+[node name="IMultiplayerSpawn" parent="." instance=ExtResource("8_fasfd")]

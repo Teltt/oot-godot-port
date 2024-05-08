@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyvs8034dedt8"]
+
+[ext_resource type="Script" path="res://cfeature/interface/filter/IFilterMatch.gd" id="1_q6xnn"]
+
+[node name="IceFilterMatch" type="Node" node_paths=PackedStringArray("actor")]
+script = ExtResource("1_q6xnn")
+actor = NodePath("")
+filter = &"Ice"

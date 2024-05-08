@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwltur85p48j8"]
+
+[ext_resource type="Script" path="res://Game_Data/Ported/event.gd" id="1_ng512"]
+
+[node name="event" type="Node2D"]
+script = ExtResource("1_ng512")
+
+[node name="Camera_Pos" type="Marker2D" parent="."]
+position = Vector2(440, 384)
+
+[node name="Camera2D" type="Camera2D" parent="Camera_Pos"]
+enabled = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

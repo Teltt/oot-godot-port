@@ -31,6 +31,9 @@ func from_collision_test(_actor,pos,normal):
 	contact(_actor,pos,normal)
 signal hit(hitter,hitspot)
 func contact(_actor,pos=Vector3.ZERO,normal= Vector3.ZERO):
+	if not is_multiplayer_authority():
+		rpc_contact.rpc_id(1,get_path_to(_actor),pos,normal)
+		return
 	for child in _actor.get_children():
 		if child is HITABLE:
 			if child._is(my_flags):
@@ -38,3 +41,9 @@ func contact(_actor,pos=Vector3.ZERO,normal= Vector3.ZERO):
 				hit_normal = normal
 				child.hit.emit(self,child)
 				hit.emit(self,child)
+@rpc("any_peer","call_local")
+func rpc_contact(actor_path,pos,normal):
+	if not is_multiplayer_authority():
+		return
+	var _actor = get_node(actor_path)
+	contact(_actor,pos,normal)

@@ -1,5 +1,6 @@
 extends ShapeCast3D
 class_name CollisionTest
+@export var actor:Actor
 signal hit_actor(actor,pos,normal)
 signal hit_surface(surface,pos,normal)
 func _ready() -> void:
@@ -11,9 +12,11 @@ func _physics_process(_delta: float) -> void:
 			var collider = get_collider(c)
 			var parent = collider.get_parent() 
 			if  parent is Actor:
-				hit_actor.emit(parent,get_collision_point(c),get_collision_normal(c))
+				if parent != actor:
+					hit_actor.emit(parent,get_collision_point(c),get_collision_normal(c))
 			elif collider is Actor:
-				hit_actor.emit(collider,get_collision_point(c),get_collision_normal(c))
+				if collider != actor:
+					hit_actor.emit(collider,get_collision_point(c),get_collision_normal(c))
 				hit_surface.emit(collider,get_collision_point(c),get_collision_normal(c))
 			else:
 				hit_surface.emit(collider,get_collision_point(c),get_collision_normal(c))
@@ -24,9 +27,11 @@ func _force_shapecast_update():
 			var collider = get_collider(c)
 			var parent = collider.get_parent() 
 			if  parent is Actor:
-				hit_actor.emit(parent,get_collision_point(c),get_collision_normal(c))
+				if parent != actor:
+					hit_actor.emit(parent,get_collision_point(c),get_collision_normal(c))
 			elif collider is Actor:
-				hit_actor.emit(collider,get_collision_point(c),get_collision_normal(c))
+				if collider != actor:
+					hit_actor.emit(collider,get_collision_point(c),get_collision_normal(c))
 				hit_surface.emit(collider,get_collision_point(c),get_collision_normal(c))
 			else:
 				hit_surface.emit(collider,get_collision_point(c),get_collision_normal(c))

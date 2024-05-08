@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxrc4w538esic"]
+
+[ext_resource type="Script" path="res://cfeature/interface/filter/IFilterMatch.gd" id="1_2l5sr"]
+
+[node name="FireFilterMatch" type="Node" node_paths=PackedStringArray("actor")]
+script = ExtResource("1_2l5sr")
+actor = NodePath("")
+filter = &"Fire"

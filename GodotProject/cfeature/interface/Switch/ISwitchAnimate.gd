@@ -1,8 +1,11 @@
 extends AnimationPlayer
+class_name ISwitchAnimate
 @export var switch:Switch
 @export var switch_to_animation_name:Dictionary = {}
 @export var skips_inital_switch_anim = true
 func _ready() -> void:
+	await  get_tree().process_frame
+	await  get_tree().process_frame
 	on_ready(switch.v)
 	switch.send_changed_value.connect(receive_request)
 func receive_request(v):
