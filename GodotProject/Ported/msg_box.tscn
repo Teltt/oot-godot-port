@@ -1,9 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b03aadav3mbkg"]
-
-[ext_resource type="Script" path="res://Game_Data/Ported/msg_box.gd" id="1_i0ytw"]
-[ext_resource type="Script" path="res://addons/dialogue_manager/dialogue_label.gd" id="2_t13c0"]
-[ext_resource type="Script" path="res://Game_Data/Ported/MSG_ResponseMenu.gd" id="3_h2gym"]
-[ext_resource type="Script" path="res://Game_Data/Ported/MSG_Response.gd" id="4_pqpjd"]
+[gd_scene load_steps=7 format=3 uid="uid://b03aadav3mbkg"]
 
 [sub_resource type="Animation" id="Animation_6x1xy"]
 resource_name = "display_choices"
@@ -109,16 +104,15 @@ _data = {
 [node name="msg_box" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_i0ytw")
 
 [node name="Choices" type="Polygon2D" parent="."]
 position = Vector2(762, 436)
-scale = Vector2(0.285, 1e-05)
+scale = Vector2(0.28498, 1.05263)
 color = Color(0.537255, 0, 0.2, 0.807843)
 offset = Vector2(-148.755, -589.995)
 polygon = PackedVector2Array(168.433, 590, 168.433, 468.4, 196.505, 453.2, 252.649, 445.6, 926.381, 445.6, 982.525, 453.2, 1010.6, 468.4, 1010.6, 590)
 
-[node name="ResponsesMenu" type="VBoxContainer" parent="Choices" node_paths=PackedStringArray("response_template")]
+[node name="ResponsesMenu" type="VBoxContainer" parent="Choices"]
 unique_name_in_owner = true
 offset_left = 35.0
 offset_top = -143.0
@@ -126,13 +120,10 @@ offset_right = 589.0
 offset_bottom = 23.0
 scale = Vector2(1.495, 0.835)
 size_flags_horizontal = 0
-script = ExtResource("3_h2gym")
-response_template = NodePath("MarginContainer")
 
 [node name="MarginContainer" type="MarginContainer" parent="Choices/ResponsesMenu"]
 custom_minimum_size = Vector2(533.55, 38)
 layout_mode = 2
-script = ExtResource("4_pqpjd")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Choices/ResponsesMenu/MarginContainer"]
 z_index = 1
@@ -163,8 +154,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Poly" type="Polygon2D" parent="Control"]
-position = Vector2(104, 700)
-scale = Vector2(1, 1e-05)
+position = Vector2(104, 538)
 color = Color(1, 1, 0, 0.635294)
 offset = Vector2(0, -320)
 polygon = PackedVector2Array(24, 222, 16, 238, 16, 358, 24, 374, 40, 382, 904, 382, 920, 374, 928, 358, 928, 238, 920, 222, 904, 214, 40, 214)
@@ -181,15 +171,6 @@ scale = Vector2(1, 0.954545)
 color = Color(0.435294, 0.25098, 0.266667, 1)
 polygon = PackedVector2Array(184, 413.524, 184, 447.048, 472, 447.048, 472, 413.524, 469, 408.286, 464, 405.143, 192, 405.143, 187, 408.286)
 
-[node name="Name" type="RichTextLabel" parent="Control/Poly"]
-offset_left = 104.0
-offset_top = -142.909
-offset_right = 354.0
-offset_bottom = -62.909
-theme_override_font_sizes/normal_font_size = 25
-bbcode_enabled = true
-metadata/_edit_use_anchors_ = true
-
 [node name="Progress" type="Node2D" parent="Control/Poly"]
 modulate = Color(1, 0.286275, 0, 1)
 position = Vector2(-88, -514)
@@ -197,13 +178,6 @@ scale = Vector2(1, 0.954545)
 
 [node name="Polygon2D9" type="Polygon2D" parent="Control/Poly/Progress"]
 polygon = PackedVector2Array(968, 552, 960, 600, 1008, 576)
-
-[node name="Message" type="RichTextLabel" parent="Control/Poly"]
-offset_left = 48.0
-offset_top = -98.0
-offset_right = 872.0
-offset_bottom = 54.0
-script = ExtResource("2_t13c0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true

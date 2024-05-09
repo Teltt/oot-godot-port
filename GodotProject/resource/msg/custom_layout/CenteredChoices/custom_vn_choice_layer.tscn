@@ -1,0 +1,266 @@
+[gd_scene load_steps=18 format=3 uid="uid://dhk6j6eb6e3q"]
+
+[ext_resource type="Script" path="res://resource/msg/custom_layout/CenteredChoices/vn_choice_layer.gd" id="1_kurgw"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Choice/node_choice_button.gd" id="1_w632k"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Choice/node_button_sound.gd" id="2_mgko6"]
+[ext_resource type="AudioStream" uid="uid://b6c1p14bc20p1" path="res://addons/dialogic/Example Assets/sound-effects/typing1.wav" id="3_mql8i"]
+[ext_resource type="AudioStream" uid="uid://c2viukvbub6v6" path="res://addons/dialogic/Example Assets/sound-effects/typing4.wav" id="4_420fr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mb5jx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_edro4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pche7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1qfu8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pn5ed"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lh0rv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fjmlo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5sn1h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_525bt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_50b77"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_es273"]
+
+[sub_resource type="AudioStream" id="AudioStream_pe27w"]
+
+[node name="VN_ChoiceLayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_kurgw")
+boxes_v_separation = 3
+boxes_min_size = Vector2(0, 39.42)
+
+[node name="Choices" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -467.43
+offset_top = -431.46
+offset_right = -104.428
+offset_bottom = -65.46
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+alignment = 2
+metadata/_edit_layout_mode = 1
+
+[node name="DialogicNode_ChoiceButton1" type="Button" parent="Choices"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(363.35, 39.42)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mb5jx")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_edro4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pche7")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_1qfu8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_pn5ed")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_lh0rv")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_fjmlo")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_5sn1h")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_525bt")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_50b77")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_es273")
+alignment = 0
+script = ExtResource("1_w632k")
+
+[node name="2" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton1"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.956863, 0.831373, 0.615686, 1)
+polygon = PackedVector2Array(-112.45, -30.5, -69.6117, -30.5, -48.1927, -22.5, 533.104, -22.8, 550.641, -19.95, 562.249, -14.5, 562.249, 46.5, -145.018, 46.5, -144.578, -14.5, -133.869, -22.5)
+
+[node name="3" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton1"]
+z_index = -2
+position = Vector2(72.5, -9)
+scale = Vector2(0.562, 3.24)
+color = Color(0.4, 0.3356, 0.216, 1)
+polygon = PackedVector2Array(562.249, 14.5, 562.249, 17.5, -144.578, 17.5, -144.578, 16.6667, -135.207, 14.5062, -112.45, 12.037, -69.6117, 12.037, -48.1927, 14.5062)
+
+[node name="1" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton1"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.490196, 0.27451, 0.121569, 1)
+polygon = PackedVector2Array(-112.232, -22.8, 533.104, -22.8, 550.641, -19.95, 561.162, -15.2, 561.162, 7.59991, -140.291, 7.59991, -140.291, -15.2, -129.769, -19.95)
+
+[node name="DialogicNode_ChoiceButton2" type="Button" parent="Choices"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(363.35, 39.42)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mb5jx")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_edro4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pche7")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_1qfu8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_pn5ed")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_lh0rv")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_fjmlo")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_5sn1h")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_525bt")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_50b77")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_es273")
+alignment = 0
+script = ExtResource("1_w632k")
+
+[node name="2" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton2"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.956863, 0.831373, 0.615686, 1)
+polygon = PackedVector2Array(-112.45, -30.5, -69.6117, -30.5, -48.1927, -22.5, 533.104, -22.8, 550.641, -19.95, 562.249, -14.5, 562.249, 46.5, -145.018, 46.5, -144.578, -14.5, -133.869, -22.5)
+
+[node name="3" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton2"]
+z_index = -2
+position = Vector2(72.5, -9)
+scale = Vector2(0.562, 3.24)
+color = Color(0.4, 0.3356, 0.216, 1)
+polygon = PackedVector2Array(562.249, 14.5, 562.249, 17.5, -144.578, 17.5, -144.578, 16.6667, -135.207, 14.5062, -112.45, 12.037, -69.6117, 12.037, -48.1927, 14.5062)
+
+[node name="1" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton2"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.490196, 0.27451, 0.121569, 1)
+polygon = PackedVector2Array(-112.232, -22.8, 533.104, -22.8, 550.641, -19.95, 561.162, -15.2, 561.162, 7.59991, -140.291, 7.59991, -140.291, -15.2, -129.769, -19.95)
+
+[node name="DialogicNode_ChoiceButton3" type="Button" parent="Choices"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(363.35, 39.42)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mb5jx")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_edro4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pche7")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_1qfu8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_pn5ed")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_lh0rv")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_fjmlo")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_5sn1h")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_525bt")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_50b77")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_es273")
+alignment = 0
+script = ExtResource("1_w632k")
+
+[node name="2" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton3"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.956863, 0.831373, 0.615686, 1)
+polygon = PackedVector2Array(-112.45, -30.5, -69.6117, -30.5, -48.1927, -22.5, 533.104, -22.8, 550.641, -19.95, 562.249, -14.5, 562.249, 46.5, -145.018, 46.5, -144.578, -14.5, -133.869, -22.5)
+
+[node name="3" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton3"]
+z_index = -2
+position = Vector2(72.5, -9)
+scale = Vector2(0.562, 3.24)
+color = Color(0.4, 0.3356, 0.216, 1)
+polygon = PackedVector2Array(562.249, 14.5, 562.249, 17.5, -144.578, 17.5, -144.578, 16.6667, -135.207, 14.5062, -112.45, 12.037, -69.6117, 12.037, -48.1927, 14.5062)
+
+[node name="1" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton3"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.490196, 0.27451, 0.121569, 1)
+polygon = PackedVector2Array(-112.232, -22.8, 533.104, -22.8, 550.641, -19.95, 561.162, -15.2, 561.162, 7.59991, -140.291, 7.59991, -140.291, -15.2, -129.769, -19.95)
+
+[node name="DialogicNode_ChoiceButton4" type="Button" parent="Choices"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(363.35, 39.42)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mb5jx")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_edro4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pche7")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_1qfu8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_pn5ed")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_lh0rv")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_fjmlo")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_5sn1h")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_525bt")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_50b77")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_es273")
+alignment = 0
+script = ExtResource("1_w632k")
+
+[node name="2" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton4"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.956863, 0.831373, 0.615686, 1)
+polygon = PackedVector2Array(-112.45, -30.5, -69.6117, -30.5, -48.1927, -22.5, 533.104, -22.8, 550.641, -19.95, 562.249, -14.5, 562.249, 46.5, -145.018, 46.5, -144.578, -14.5, -133.869, -22.5)
+
+[node name="3" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton4"]
+z_index = -2
+position = Vector2(72.5, -9)
+scale = Vector2(0.562, 3.24)
+color = Color(0.4, 0.3356, 0.216, 1)
+polygon = PackedVector2Array(562.249, 14.5, 562.249, 17.5, -144.578, 17.5, -144.578, 16.6667, -135.207, 14.5062, -112.45, 12.037, -69.6117, 12.037, -48.1927, 14.5062)
+
+[node name="1" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton4"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.490196, 0.27451, 0.121569, 1)
+polygon = PackedVector2Array(-112.232, -22.8, 533.104, -22.8, 550.641, -19.95, 561.162, -15.2, 561.162, 7.59991, -140.291, 7.59991, -140.291, -15.2, -129.769, -19.95)
+
+[node name="DialogicNode_ChoiceButton5" type="Button" parent="Choices"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(363.35, 39.42)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mb5jx")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_edro4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pche7")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_1qfu8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_pn5ed")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_lh0rv")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_fjmlo")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_5sn1h")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_525bt")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_50b77")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_es273")
+alignment = 0
+script = ExtResource("1_w632k")
+
+[node name="2" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton5"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.956863, 0.831373, 0.615686, 1)
+polygon = PackedVector2Array(-112.45, -30.5, -69.6117, -30.5, -48.1927, -22.5, 533.104, -22.8, 550.641, -19.95, 562.249, -14.5, 562.249, 46.5, -145.018, 46.5, -144.578, -14.5, -133.869, -22.5)
+
+[node name="3" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton5"]
+z_index = -2
+position = Vector2(72.5, -9)
+scale = Vector2(0.562, 3.24)
+color = Color(0.4, 0.3356, 0.216, 1)
+polygon = PackedVector2Array(562.249, 14.5, 562.249, 17.5, -144.578, 17.5, -144.578, 16.6667, -135.207, 14.5062, -112.45, 12.037, -69.6117, 12.037, -48.1927, 14.5062)
+
+[node name="1" type="Polygon2D" parent="Choices/DialogicNode_ChoiceButton5"]
+z_index = -2
+position = Vector2(72.5, 20.5)
+scale = Vector2(0.562, 1)
+color = Color(0.490196, 0.27451, 0.121569, 1)
+polygon = PackedVector2Array(-112.232, -22.8, 533.104, -22.8, 550.641, -19.95, 561.162, -15.2, 561.162, 7.59991, -140.291, 7.59991, -140.291, -15.2, -129.769, -19.95)
+
+[node name="BoxContainer" type="BoxContainer" parent="Choices"]
+custom_minimum_size = Vector2(0, 151.685)
+layout_mode = 2
+
+[node name="DialogicNode_ButtonSound" type="AudioStreamPlayer" parent="Choices"]
+unique_name_in_owner = true
+script = ExtResource("2_mgko6")
+sound_pressed = ExtResource("3_mql8i")
+sound_hover = ExtResource("4_420fr")
+sound_focus = SubResource("AudioStream_pe27w")
